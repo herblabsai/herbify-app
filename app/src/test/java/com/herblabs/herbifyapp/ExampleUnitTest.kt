@@ -1,4 +1,4 @@
-package com.faprayyy.herbify_app
+package com.herblabs.herbifyapp
 
 import org.junit.Test
 

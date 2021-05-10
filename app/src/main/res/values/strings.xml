@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">herbify-app</string>
+    <string name="app_name">Herbify</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="home">Home</string>
+    <string name="me">Me</string>
+    <string name="search">search</string>
 </resources>
