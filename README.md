@@ -1,2 +1,2 @@
 # herbify-app
-cek
+Aplikasi berbasis android untuk mendeteksi tanaman herbal dengan bantuan *Machine Learning*.
