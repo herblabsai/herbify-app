@@ -1,11 +1,13 @@
 package com.herblabs.herbifyapp.view
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.herblabs.herbifyapp.R
 import com.herblabs.herbifyapp.databinding.ActivityMainBinding
+import com.herblabs.herbifyapp.view.camera.CameraActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,5 +26,9 @@ class MainActivity : AppCompatActivity() {
             setupWithNavController(navController)
         }
 
+        binding.fab.setOnClickListener{
+            val intent = Intent(this, CameraActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
