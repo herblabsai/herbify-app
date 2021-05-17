@@ -5,4 +5,9 @@
     <string name="home">Home</string>
     <string name="me">Me</string>
     <string name="search">search</string>
+    <string name="camera_button">Camera Button</string>
+    <string name="logo">Logo</string>
+    <string name="next">Next</string>
+    <string name="description">Description</string>
+    <string name="title">Title</string>
 </resources>

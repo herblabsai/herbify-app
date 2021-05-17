@@ -40,7 +40,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_round_camera_alt_24"
-        app:layout_anchor="@id/bottom_nav_bar" />
+        app:layout_anchor="@id/bottom_nav_bar"
+        android:contentDescription="@string/camera_button" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

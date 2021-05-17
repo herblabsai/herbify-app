@@ -9,14 +9,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Herbifyapp">
-        <activity android:name=".view.search.SearchActivity"></activity>
-        <activity android:name=".view.MainActivity">
+        <activity android:name=".view.splashscreen.SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".view.welcome.WelcomeActivity" />
+        <activity android:name=".view.search.SearchActivity" />
+        <activity android:name=".view.MainActivity">
+
+        </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>
