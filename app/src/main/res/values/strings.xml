@@ -10,4 +10,12 @@
     <string name="next">Next</string>
     <string name="description">Description</string>
     <string name="title">Title</string>
+    <string name="name">Name</string>
+    <string name="by_herblabs_ai">By Herblabs.ai</string>
+    <string name="sign_in">Sign In</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="image_result">Image Result</string>
+    <string name="back_button">Back Button</string>
+    <string name="identified_as">Identified As</string>
+    <string name="no_match">No Match ?</string>
 </resources>

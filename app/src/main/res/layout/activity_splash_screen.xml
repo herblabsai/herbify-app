@@ -21,7 +21,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="By Herblabs.ai"
+        android:text="@string/by_herblabs_ai"
         android:fontFamily="@font/source_sans_pro"
         android:textColor="@color/black"
         android:textSize="18sp"

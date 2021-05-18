@@ -27,7 +27,9 @@
         android:backgroundTint="@color/btn_color"
         android:fontFamily="@font/source_sans_pro"
         android:text="@string/next"
+        android:textColor="@color/white"
         android:textAllCaps="false"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
