@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.herblabs.herbifyapp">
+    <uses-feature android:name="android.hardware.camera.any" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
@@ -22,7 +24,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Herbifyapp">
-
         <activity android:name=".view.signin.SignInActivity" />
         <activity android:name=".view.identify.IdentifyActivity" />
         <activity android:name=".view.splashscreen.SplashScreenActivity">
@@ -35,7 +36,9 @@
         <activity android:name=".view.welcome.WelcomeActivity" />
         <activity android:name=".view.search.SearchActivity" />
         <activity android:name=".view.MainActivity" />
-
+        <activity android:name=".view.camera.CameraActivity"></activity>
+        <activity android:name=".view.search.SearchActivity"></activity>
+        <activity android:name=".view.MainActivity" />
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

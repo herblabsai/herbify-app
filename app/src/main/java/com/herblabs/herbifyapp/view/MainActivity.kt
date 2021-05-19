@@ -16,12 +16,12 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.herblabs.herbifyapp.R
 import com.herblabs.herbifyapp.databinding.ActivityMainBinding
+import com.herblabs.herbifyapp.view.camera.CameraActivity
 import com.herblabs.herbifyapp.view.identify.IdentifyActivity
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
-
 
 class MainActivity : AppCompatActivity() {
 
