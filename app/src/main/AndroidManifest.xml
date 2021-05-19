@@ -36,7 +36,9 @@
         <activity android:name=".view.welcome.WelcomeActivity" />
         <activity android:name=".view.search.SearchActivity" />
         <activity android:name=".view.MainActivity" />
-        <activity android:name=".view.camera.CameraActivity" />
+        <activity android:name=".view.camera.CameraActivity"></activity>
+        <activity android:name=".view.search.SearchActivity"></activity>
+        <activity android:name=".view.MainActivity" />
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
