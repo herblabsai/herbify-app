@@ -31,6 +31,8 @@
             android:layout_height="match_parent"
             app:menu="@menu/bottom_nav_menu"
             android:layout_marginEnd="16dp"
+            app:itemTextColor="@drawable/ic_selector_navbar"
+            app:itemIconTint="@drawable/ic_selector_navbar"
             android:background="@android:color/transparent"/>
 
     </com.google.android.material.bottomappbar.BottomAppBar>
@@ -41,7 +43,8 @@
         android:layout_height="wrap_content"
         android:backgroundTint="@color/teal_700"
         android:src="@drawable/ic_round_camera_alt_24"
-        app:layout_anchor="@id/bottom_nav_bar" />
+        app:layout_anchor="@id/bottom_nav_bar"
+        android:contentDescription="@string/camera_button" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

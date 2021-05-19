@@ -4,15 +4,13 @@
 
     <item android:id="@+id/homeFragment"
         android:title="@string/home"
-        android:icon="@drawable/ic_round_home"
-        app:iconTint="@color/gray400"/>
+        android:icon="@drawable/ic_round_home"/>
 
     <item android:id="@+id/placeholder"
         android:title=""/>
 
     <item android:id="@+id/profileFragment"
         android:title="@string/me"
-        android:icon="@drawable/ic_round_person_24"
-        app:iconTint="@color/gray400"/>
+        android:icon="@drawable/ic_round_person"/>
 
 </menu>
