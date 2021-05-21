@@ -32,6 +32,7 @@
                 android:layout_marginStart="18dp"
                 android:layout_marginTop="11dp"
                 android:src="@drawable/ic_round_person"
+                android:foregroundTint="@color/black"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 

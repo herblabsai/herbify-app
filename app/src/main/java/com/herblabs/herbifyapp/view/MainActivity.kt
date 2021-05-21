@@ -1,5 +1,6 @@
 package com.herblabs.herbifyapp.view
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
@@ -44,8 +45,15 @@ class MainActivity : AppCompatActivity() {
 
         progressDialog = getDialogProgressBar().create()
 
+//        binding.fab.setOnClickListener {
+//            dispatchTakePictureIntent()
+//        }
+
         binding.fab.setOnClickListener {
-            dispatchTakePictureIntent()
+            binding.fab.setOnClickListener{
+                val intent = Intent(this, CameraActivity::class.java)
+                startActivity(intent)
+            }
         }
 
     }
@@ -65,6 +73,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("SimpleDateFormat")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -94,7 +103,6 @@ class MainActivity : AppCompatActivity() {
             }.addOnProgressListener {
                 progressDialog.show()
             }
-
         }
     }
 
