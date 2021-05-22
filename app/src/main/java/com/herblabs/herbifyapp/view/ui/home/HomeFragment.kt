@@ -1,4 +1,4 @@
-package com.herblabs.herbifyapp.view.home
+package com.herblabs.herbifyapp.view.ui.home
 
 import android.content.Intent
 import androidx.lifecycle.ViewModelProvider
@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.herblabs.herbifyapp.R
 import com.herblabs.herbifyapp.databinding.FragmentHomeBinding
-import com.herblabs.herbifyapp.view.search.SearchActivity
+import com.herblabs.herbifyapp.view.ui.search.SearchActivity
 
 class HomeFragment : Fragment() {
 

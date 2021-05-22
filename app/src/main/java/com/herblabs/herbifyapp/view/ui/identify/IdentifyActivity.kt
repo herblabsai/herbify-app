@@ -1,19 +1,22 @@
-package com.herblabs.herbifyapp.view.identify
+package com.herblabs.herbifyapp.view.ui.identify
 
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import com.herblabs.herbifyapp.databinding.ActivityIdentifyBinding
+import com.herblabs.herbifyapp.databinding.ActivityResultBinding
 import com.herblabs.herbifyapp.view.MainActivity
+import com.herblabs.herbifyapp.view.MainActivity.Companion.EXTRA_IMAGE_URI
 
 class IdentifyActivity : AppCompatActivity() {
 
-    companion object{
-        const val EXTRA_IMAGE = "extra_image"
-        const val EXTRA_IMAGE_URI = "extra_image"
-    }
     private lateinit var binding: ActivityIdentifyBinding
+
+    companion object {
+        const val TAG = "IdentifyActivity"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,15 +24,14 @@ class IdentifyActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val imageUri = intent.getParcelableExtra<Uri>(EXTRA_IMAGE_URI)
-        binding.imgResult.setImageURI(imageUri)
-
-        binding.btnBack.setOnClickListener {
-            goToMainPage()
+        Log.d(TAG,"$imageUri")
+        if (imageUri!=null){
+            binding.imgResult.setImageURI(imageUri)
         }
-    }
 
-    private fun goToMainPage() {
-        startActivity(Intent(this@IdentifyActivity, MainActivity::class.java))
-        finish()
+        binding.toolbar.setNavigationOnClickListener {
+            onBackPressed()
+        }
+
     }
 }

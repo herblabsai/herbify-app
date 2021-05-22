@@ -1,10 +1,8 @@
 package com.herblabs.herbifyapp.view
 
-import android.annotation.SuppressLint
 import android.content.Intent
-import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.util.Log
 import android.widget.LinearLayout
 import android.widget.ProgressBar
@@ -17,12 +15,8 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.herblabs.herbifyapp.R
 import com.herblabs.herbifyapp.databinding.ActivityMainBinding
-import com.herblabs.herbifyapp.view.camera.CameraActivity
-import com.herblabs.herbifyapp.view.identify.IdentifyActivity
-import java.io.ByteArrayOutputStream
-import java.io.IOException
-import java.text.SimpleDateFormat
-import java.util.*
+import com.herblabs.herbifyapp.view.ui.camera.CameraActivity
+import com.herblabs.herbifyapp.view.ui.identify.IdentifyActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -44,26 +38,60 @@ class MainActivity : AppCompatActivity() {
         }
 
         progressDialog = getDialogProgressBar().create()
-
-//        binding.fab.setOnClickListener {
-//            dispatchTakePictureIntent()
-//        }
-
         binding.fab.setOnClickListener {
-            binding.fab.setOnClickListener{
-                val intent = Intent(this, CameraActivity::class.java)
-                startActivity(intent)
-            }
+            dispatchTakePictureIntent()
         }
+        binding.fab.setOnClickListener {
+            dispatchTakePictureIntent()
+//          val intent = Intent(this, CameraActivity::class.java)
+//          startActivity(intent)
+        }
+    }
 
+    private fun getDialogProgressBar(): AlertDialog.Builder {
+
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Loading...")
+        val progressBar = ProgressBar(this)
+        val lp = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        )
+        progressBar.layoutParams = lp
+        builder.setView(progressBar)
+
+        return builder
+    }
+
+    private fun dispatchTakePictureIntent() {
+        val intent = Intent(this, CameraActivity::class.java)
+        startActivityForResult(intent, REQUEST_IMAGE_CAPTURE)
     }
 
     companion object{
-        private const val REQUEST_IMAGE_CAPTURE = 1
+        private const val REQUEST_IMAGE_CAPTURE = 100
+        const val RESULT_IMAGE_CAPTURE = 101
         private const val TAG = "MainActivity"
-        const val EXTRA_IMAGE = "extra_image"
+        const val EXTRA_IMAGE_URI = "extra_image_uri"
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_IMAGE_CAPTURE) {
+            val imageUri = data?.extras?.get(EXTRA_IMAGE_URI) as Uri
+
+            Log.d("RESULT", "$imageUri")
+
+            Toast.makeText(this, "Here we go !", Toast.LENGTH_LONG).show()
+            Intent(this, IdentifyActivity::class.java).apply {
+                putExtra(EXTRA_IMAGE_URI, imageUri)
+                startActivity(this)
+            }
+        }
+    }
+
+/*
     private fun dispatchTakePictureIntent() {
         val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         try {
@@ -105,19 +133,5 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
-    private fun getDialogProgressBar(): AlertDialog.Builder {
-
-            val builder = AlertDialog.Builder(this)
-            builder.setTitle("Loading...")
-            val progressBar = ProgressBar(this)
-            val lp = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-            )
-            progressBar.layoutParams = lp
-            builder.setView(progressBar)
-
-        return builder
-    }
+ */
 }

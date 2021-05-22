@@ -1,4 +1,4 @@
-package com.herblabs.herbifyapp.view.search
+package com.herblabs.herbifyapp.view.ui.search
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

@@ -1,4 +1,4 @@
-package com.herblabs.herbifyapp.view.camera
+package com.herblabs.herbifyapp.view.ui.camera
 
 import android.Manifest
 import android.content.Intent
@@ -20,7 +20,6 @@ import com.google.firebase.storage.ktx.storage
 import com.herblabs.herbifyapp.R
 import com.herblabs.herbifyapp.databinding.ActivityCameraBinding
 import com.herblabs.herbifyapp.view.MainActivity
-import com.herblabs.herbifyapp.view.identify.IdentifyActivity
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -41,7 +40,7 @@ class CameraActivity : AppCompatActivity() {
 
     companion object {
         private const val TAG = "CameraActivity"
-        private const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
+        private const val FILENAME_FORMAT = "yyyyMMdd_HHmmss"
         private const val REQUEST_CODE_PERMISSIONS = 10
         private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
     }
@@ -55,8 +54,7 @@ class CameraActivity : AppCompatActivity() {
         if (allPermissionsGranted()) {
             startCamera()
         } else {
-            ActivityCompat.requestPermissions(
-                this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
+            ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
         }
 
         // Set up the listener for take photo button
@@ -95,11 +93,14 @@ class CameraActivity : AppCompatActivity() {
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
                     val savedUri = Uri.fromFile(photoFile)
                     val msg = "Photo capture succeeded: $savedUri"
-                    Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
                     Log.d(TAG, msg)
 
                     val imageRef = storageRef.child("images/${SimpleDateFormat(FILENAME_FORMAT, Locale.US).format(System.currentTimeMillis())}.jpg")
                     val uploadTask = imageRef.putFile(savedUri)
+
+                    val intent = Intent().apply {
+                        putExtra(MainActivity.EXTRA_IMAGE_URI, savedUri)
+                    }
 
                     uploadTask.addOnFailureListener {
                         progressDialog.dismiss()
@@ -107,11 +108,9 @@ class CameraActivity : AppCompatActivity() {
                         Toast.makeText(this@CameraActivity, "Error :( ${it.message.toString()}", Toast.LENGTH_LONG).show()
                     }.addOnSuccessListener {
                         progressDialog.dismiss()
-                        Toast.makeText(this@CameraActivity, "Here we go !", Toast.LENGTH_LONG).show()
-                        Intent(this@CameraActivity, IdentifyActivity::class.java).apply {
-                            putExtra(IdentifyActivity.EXTRA_IMAGE_URI, savedUri)
-                            startActivity(this)
-                        }
+                        setResult(MainActivity.RESULT_IMAGE_CAPTURE, intent)
+                        finish()
+
                     }.addOnProgressListener {
                         progressDialog.show()
                     }
@@ -157,24 +156,20 @@ class CameraActivity : AppCompatActivity() {
         cameraProviderFuture.addListener(Runnable {
             // Used to bind the lifecycle of cameras to the lifecycle owner
             val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
-
             // Preview
             val preview = Preview.Builder()
                 .build()
                 .also {
                     it.setSurfaceProvider(binding.viewFinder.surfaceProvider)
                 }
-
             imageCapture = ImageCapture.Builder()
                 .build()
-
             // Select back camera as a default
             val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
 
             try {
                 // Unbind use cases before rebinding
                 cameraProvider.unbindAll()
-
                 // Bind use cases to camera
                 cameraProvider.bindToLifecycle(
                     this, cameraSelector, preview, imageCapture)
@@ -187,7 +182,6 @@ class CameraActivity : AppCompatActivity() {
     }
 
     private fun getDialogProgressBar(): AlertDialog.Builder {
-
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Loading...")
         val progressBar = ProgressBar(this)
@@ -195,7 +189,6 @@ class CameraActivity : AppCompatActivity() {
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
         )
-
         progressBar.layoutParams = lp
         builder.setView(progressBar)
 

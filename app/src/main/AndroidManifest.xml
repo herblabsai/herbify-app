@@ -24,19 +24,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Herbifyapp">
-        <activity android:name=".view.signin.SignInActivity" />
-        <activity android:name=".view.identify.IdentifyActivity" />
-        <activity android:name=".view.splashscreen.SplashScreenActivity">
+        <activity android:name=".view.ui.signin.SignInActivity" />
+        <activity android:name=".view.ui.identify.IdentifyActivity" />
+        <activity android:name=".view.ui.splashscreen.SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.welcome.WelcomeActivity" />
-        <activity android:name=".view.search.SearchActivity" />
+        <activity android:name=".view.ui.welcome.WelcomeActivity" />
+        <activity android:name=".view.ui.search.SearchActivity" />
         <activity android:name=".view.MainActivity" />
-        <activity android:name=".view.camera.CameraActivity" />
+        <activity android:name=".view.ui.camera.CameraActivity" />
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

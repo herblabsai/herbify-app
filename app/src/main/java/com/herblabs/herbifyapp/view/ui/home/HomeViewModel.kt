@@ -1,4 +1,4 @@
-package com.herblabs.herbifyapp.view.home
+package com.herblabs.herbifyapp.view.ui.home
 
 import androidx.lifecycle.ViewModel
 

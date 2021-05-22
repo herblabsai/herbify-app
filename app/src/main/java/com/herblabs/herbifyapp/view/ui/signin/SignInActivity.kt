@@ -1,4 +1,4 @@
-package com.herblabs.herbifyapp.view.signin
+package com.herblabs.herbifyapp.view.ui.signin
 
 import android.content.Context
 import android.content.Intent

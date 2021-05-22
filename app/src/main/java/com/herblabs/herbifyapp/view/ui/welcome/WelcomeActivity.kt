@@ -1,4 +1,4 @@
-package com.herblabs.herbifyapp.view.welcome
+package com.herblabs.herbifyapp.view.ui.welcome
 
 import android.content.Context
 import android.content.Intent
@@ -8,7 +8,7 @@ import android.os.Bundle
 import com.herblabs.herbifyapp.R
 import com.herblabs.herbifyapp.databinding.ActivityWelcomeBinding
 import com.herblabs.herbifyapp.view.MainActivity
-import com.herblabs.herbifyapp.view.signin.SignInActivity
+import com.herblabs.herbifyapp.view.ui.signin.SignInActivity
 
 class WelcomeActivity : AppCompatActivity() {
     private lateinit var welcomeAdapter: WelcomeAdapter
@@ -27,16 +27,16 @@ class WelcomeActivity : AppCompatActivity() {
 
 
         welcomeAdapter = WelcomeAdapter(listOf(
-            WelcomeModel(
-            "Identify Herbs",
-            "Mari mengenal berbagai tumbuhan baru yang tidak Anda kenal.",
-            R.drawable.ic_people_searching
-            ),
-            WelcomeModel(
-                "Get Recipes",
-                "Jika sudah kenal jangan lupa melihat segudang manfaat yang dibawa.",
-                R.drawable.ic_people_walking
-            ),
+                WelcomeModel(
+                        "Identify Herbs",
+                        "Mari mengenal berbagai tumbuhan baru yang tidak Anda kenal.",
+                        R.drawable.ic_people_searching
+                ),
+                WelcomeModel(
+                        "Get Recipes",
+                        "Jika sudah kenal jangan lupa melihat segudang manfaat yang dibawa.",
+                        R.drawable.ic_people_walking
+                ),
         ))
 
         binding.viewPager.adapter = welcomeAdapter

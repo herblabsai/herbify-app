@@ -1,4 +1,4 @@
-package com.herblabs.herbifyapp.view.welcome
+package com.herblabs.herbifyapp.view.ui.welcome
 
 import android.view.LayoutInflater
 import android.view.View

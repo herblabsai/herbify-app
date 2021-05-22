@@ -1,4 +1,4 @@
-package com.herblabs.herbifyapp.view.profile
+package com.herblabs.herbifyapp.view.ui.profile
 
 import android.content.Context
 import android.content.Intent
@@ -15,7 +15,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.herblabs.herbifyapp.R
 import com.herblabs.herbifyapp.databinding.FragmentProfileBinding
 import com.herblabs.herbifyapp.view.MainActivity
-import com.herblabs.herbifyapp.view.signin.SignInActivity
+import com.herblabs.herbifyapp.view.ui.signin.SignInActivity
 
 class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding

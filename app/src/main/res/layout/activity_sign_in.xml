@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/teal_100"
-    tools:context=".view.signin.SignInActivity">
+    tools:context=".view.ui.signin.SignInActivity">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
