@@ -1,4 +1,4 @@
-package com.herblabs.herbifyapp.data
+package com.herblabs.herbifyapp.data.source.firebase.model
 
 data class Step(
     val caption: String = "",

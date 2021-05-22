@@ -1,6 +1,6 @@
-package com.herblabs.herbifyapp.data
+package com.herblabs.herbifyapp.data.source.firebase.model
 
-data class HerbsModel(
+data class HerbsFirestore(
     val _id: Int = 0,
     val imageUrl: String = "",
     val latinName: String = "",
