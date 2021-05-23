@@ -75,6 +75,8 @@ class MainActivity : AppCompatActivity() {
         const val RESULT_IMAGE_CAPTURE = 101
         private const val TAG = "MainActivity"
         const val EXTRA_IMAGE_URI = "extra_image_uri"
+        const val PATH_COLLECTION_HERBS = "herbs"
+        const val PATH_COLLECTION_RECIPES = "recipes"
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -136,4 +138,5 @@ class MainActivity : AppCompatActivity() {
         }
     }
  */
+
 }

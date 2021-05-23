@@ -12,7 +12,6 @@ import com.herblabs.herbifyapp.data.source.remote.RemoteDataSource
 import com.herblabs.herbifyapp.data.source.remote.model.PredictModel
 import com.herblabs.herbifyapp.data.source.remote.response.Data
 import com.herblabs.herbifyapp.utils.AppExecutors
-import java.util.concurrent.ExecutorService
 import javax.inject.Inject
 
 class HerbsRepository @Inject constructor(

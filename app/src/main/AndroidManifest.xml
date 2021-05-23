@@ -38,6 +38,7 @@
         <activity android:name=".view.ui.search.SearchActivity" />
         <activity android:name=".view.ui.main.MainActivity" />
         <activity android:name=".view.ui.camera.CameraActivity" />
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

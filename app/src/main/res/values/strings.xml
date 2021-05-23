@@ -18,4 +18,7 @@
     <string name="back_button">Back Button</string>
     <string name="identified_as">Identified As</string>
     <string name="no_match">No Match ?</string>
+    <string name="image">Image</string>
+    <string name="top_recipe">Top Recipe</string>
+    <string name="herbs">Herbs</string>
 </resources>
