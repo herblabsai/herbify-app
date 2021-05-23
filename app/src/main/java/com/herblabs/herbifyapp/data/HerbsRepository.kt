@@ -2,6 +2,8 @@ package com.herblabs.herbifyapp.data
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.firebase.firestore.FirebaseFirestore
+import com.herblabs.herbifyapp.data.source.firebase.model.Recipe
 import com.herblabs.herbifyapp.data.source.remote.RemoteDataSource
 import com.herblabs.herbifyapp.data.source.remote.model.PredictModel
 import com.herblabs.herbifyapp.data.source.remote.response.Data
