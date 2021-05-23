@@ -18,7 +18,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.herblabs.herbifyapp.R
 import com.herblabs.herbifyapp.databinding.ActivitySignInBinding
-import com.herblabs.herbifyapp.view.MainActivity
+import com.herblabs.herbifyapp.view.ui.main.MainActivity
 
 
 class SignInActivity : AppCompatActivity() {

@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.herblabs.herbifyapp.R
 import com.herblabs.herbifyapp.databinding.ActivityWelcomeBinding
-import com.herblabs.herbifyapp.view.MainActivity
 import com.herblabs.herbifyapp.view.ui.signin.SignInActivity
 
 class WelcomeActivity : AppCompatActivity() {

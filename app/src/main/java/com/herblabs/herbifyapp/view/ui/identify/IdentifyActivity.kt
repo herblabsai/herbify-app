@@ -1,14 +1,11 @@
 package com.herblabs.herbifyapp.view.ui.identify
 
-import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import com.herblabs.herbifyapp.databinding.ActivityIdentifyBinding
-import com.herblabs.herbifyapp.databinding.ActivityResultBinding
-import com.herblabs.herbifyapp.view.MainActivity
-import com.herblabs.herbifyapp.view.MainActivity.Companion.EXTRA_IMAGE_URI
+import com.herblabs.herbifyapp.view.ui.main.MainActivity.Companion.EXTRA_IMAGE_URI
 
 class IdentifyActivity : AppCompatActivity() {
 

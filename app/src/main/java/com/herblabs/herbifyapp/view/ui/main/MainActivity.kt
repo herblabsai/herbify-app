@@ -1,4 +1,4 @@
-package com.herblabs.herbifyapp.view
+package com.herblabs.herbifyapp.view.ui.main
 
 import android.content.Intent
 import android.net.Uri
@@ -17,12 +17,16 @@ import com.herblabs.herbifyapp.R
 import com.herblabs.herbifyapp.databinding.ActivityMainBinding
 import com.herblabs.herbifyapp.view.ui.camera.CameraActivity
 import com.herblabs.herbifyapp.view.ui.identify.IdentifyActivity
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
+    @Inject
+    lateinit var firebase : Firebase
+
     private lateinit var binding : ActivityMainBinding
-    private val storage = Firebase.storage
-    private val storageRef = storage.reference
     private lateinit var progressDialog: AlertDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,8 +47,6 @@ class MainActivity : AppCompatActivity() {
         }
         binding.fab.setOnClickListener {
             dispatchTakePictureIntent()
-//          val intent = Intent(this, CameraActivity::class.java)
-//          startActivity(intent)
         }
     }
 

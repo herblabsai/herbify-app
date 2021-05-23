@@ -9,8 +9,9 @@ import kotlinx.coroutines.InternalCoroutinesApi
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import javax.inject.Inject
 
-class RemoteDataSource private constructor(private val apiService: ApiService) {
+class RemoteDataSource @Inject constructor(private val apiService: ApiService) {
     companion object{
         const val TAG = "RemoteDataSource"
 

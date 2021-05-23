@@ -23,7 +23,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Herbifyapp">
+        android:theme="@style/Theme.Herbifyapp"
+        android:name=".BaseApplication">
         <activity android:name=".view.ui.signin.SignInActivity" />
         <activity android:name=".view.ui.identify.IdentifyActivity" />
         <activity android:name=".view.ui.splashscreen.SplashScreenActivity">
@@ -35,7 +36,7 @@
         </activity>
         <activity android:name=".view.ui.welcome.WelcomeActivity" />
         <activity android:name=".view.ui.search.SearchActivity" />
-        <activity android:name=".view.MainActivity" />
+        <activity android:name=".view.ui.main.MainActivity" />
         <activity android:name=".view.ui.camera.CameraActivity" />
         <meta-data
             android:name="preloaded_fonts"

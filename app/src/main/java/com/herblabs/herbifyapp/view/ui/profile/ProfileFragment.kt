@@ -14,9 +14,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.herblabs.herbifyapp.R
 import com.herblabs.herbifyapp.databinding.FragmentProfileBinding
-import com.herblabs.herbifyapp.view.MainActivity
 import com.herblabs.herbifyapp.view.ui.signin.SignInActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding
     private lateinit var sharedPreferences: SharedPreferences

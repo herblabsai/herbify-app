@@ -11,32 +11,41 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.camera.core.*
+import androidx.camera.core.CameraSelector
+import androidx.camera.core.ImageCapture
+import androidx.camera.core.ImageCaptureException
+import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
 import com.herblabs.herbifyapp.R
 import com.herblabs.herbifyapp.databinding.ActivityCameraBinding
-import com.herblabs.herbifyapp.view.MainActivity
+import com.herblabs.herbifyapp.view.ui.main.MainActivity
+import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
+import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class CameraActivity : AppCompatActivity() {
 
     private var imageCapture: ImageCapture? = null
     private lateinit var binding: ActivityCameraBinding
 
+    @Inject
+    lateinit var firebase : Firebase
+
     private lateinit var outputDirectory: File
     private lateinit var cameraExecutor: ExecutorService
-    private val storage = Firebase.storage
-    private val storageRef = storage.reference
+    private lateinit var storageRef : StorageReference
     private lateinit var progressDialog: AlertDialog
+
 
     companion object {
         private const val TAG = "CameraActivity"
@@ -56,6 +65,8 @@ class CameraActivity : AppCompatActivity() {
         } else {
             ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
         }
+
+        storageRef = firebase.storage.reference
 
         // Set up the listener for take photo button
         binding.cameraCaptureButton.setOnClickListener { takePhoto() }
@@ -138,6 +149,7 @@ class CameraActivity : AppCompatActivity() {
     override fun onRequestPermissionsResult(
         requestCode: Int, permissions: Array<String>, grantResults:
         IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == REQUEST_CODE_PERMISSIONS) {
             if (allPermissionsGranted()) {
                 startCamera()
