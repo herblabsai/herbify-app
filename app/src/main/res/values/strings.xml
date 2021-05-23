@@ -21,4 +21,5 @@
     <string name="image">Image</string>
     <string name="top_recipe">Top Recipe</string>
     <string name="herbs">Herbs</string>
+    <string name="recipe">Recipe</string>
 </resources>

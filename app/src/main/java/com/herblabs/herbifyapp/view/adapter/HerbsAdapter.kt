@@ -1,5 +1,6 @@
 package com.herblabs.herbifyapp.view.adapter
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -8,6 +9,8 @@ import com.bumptech.glide.request.RequestOptions
 import com.herblabs.herbifyapp.R
 import com.herblabs.herbifyapp.data.source.firebase.model.HerbsFirestore
 import com.herblabs.herbifyapp.databinding.ItemHerbsBinding
+import com.herblabs.herbifyapp.view.ui.detail.herb.DetailHerbActivity
+import com.herblabs.herbifyapp.view.ui.detail.herb.DetailHerbActivity.Companion.EXTRA_HERB
 
 class HerbsAdapter(var herbsList: List<HerbsFirestore>): RecyclerView.Adapter<HerbsAdapter.RecipesViewHolder>() {
     class RecipesViewHolder(private val binding: ItemHerbsBinding): RecyclerView.ViewHolder(binding.root){
@@ -20,6 +23,13 @@ class HerbsAdapter(var herbsList: List<HerbsFirestore>): RecyclerView.Adapter<He
                     RequestOptions.placeholderOf(R.drawable.ic_loading)
                         .error(R.drawable.ic_error))
                 .into(binding.imgRecipe)
+            itemView.setOnClickListener {
+                Intent(itemView.context, DetailHerbActivity::class.java).apply{
+                    this.putExtra(EXTRA_HERB, herbs)
+                    itemView.context.startActivity(this)
+                }
+
+            }
         }
     }
 
