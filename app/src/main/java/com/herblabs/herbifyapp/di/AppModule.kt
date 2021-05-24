@@ -1,5 +1,6 @@
 package com.herblabs.herbifyapp.di
 
+import android.content.SharedPreferences
 import com.google.firebase.ktx.Firebase
 import dagger.Module
 import dagger.Provides
@@ -16,6 +17,5 @@ object AppModule {
     fun provideFirebase(): Firebase {
         return Firebase
     }
-
 
 }

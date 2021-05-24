@@ -16,10 +16,11 @@ import androidx.room.*
         Index(value = ["captureId"])
     ]
 )
+
 data class PredictedEntity (
     @NonNull
     @ColumnInfo(name = "predictedId")
-    var predictedId : Int = 0,
+    var predictedId : String = "",
 
     @NonNull
     @ColumnInfo(name = "captureId")
@@ -31,5 +32,5 @@ data class PredictedEntity (
 
     @NonNull
     @ColumnInfo(name = "confident")
-    var confident : Int = 0
+    var confident : Double = 0.0
 )

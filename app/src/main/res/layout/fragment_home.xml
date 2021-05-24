@@ -56,8 +56,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/top_recipes"
-                tools:listitem="@layout/item_top_recipes"
-                tools:itemCount="3"/>
+                android:layout_marginTop="-1dp"
+                tools:itemCount="3"
+                tools:listitem="@layout/item_top_recipes" />
 
             <ProgressBar
                 android:id="@+id/progress_bar_recipe"

@@ -3,7 +3,7 @@ package com.herblabs.herbifyapp.data.source.firebase
 import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
 import com.herblabs.herbifyapp.data.source.firebase.model.Recipe
-import com.herblabs.herbifyapp.view.MainActivity
+import com.herblabs.herbifyapp.view.ui.main.MainActivity
 
 class FirestoreDataStore {
     companion object{

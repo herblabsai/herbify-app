@@ -99,6 +99,7 @@ class CameraActivity : AppCompatActivity() {
         imageCapture.takePicture(outputOptions, ContextCompat.getMainExecutor(this), object : ImageCapture.OnImageSavedCallback {
                 override fun onError(exc: ImageCaptureException) {
                     Log.e(TAG, "Photo capture failed: ${exc.message}", exc)
+                    Toast.makeText(this@CameraActivity, "Image saving error", Toast.LENGTH_LONG).show()
                 }
 
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
@@ -121,7 +122,6 @@ class CameraActivity : AppCompatActivity() {
                         progressDialog.dismiss()
                         setResult(MainActivity.RESULT_IMAGE_CAPTURE, intent)
                         finish()
-
                     }.addOnProgressListener {
                         progressDialog.show()
                     }

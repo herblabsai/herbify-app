@@ -1,20 +1,24 @@
 package com.herblabs.herbifyapp.view.ui.main
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage
 import com.herblabs.herbifyapp.R
+import com.herblabs.herbifyapp.data.source.local.entity.CaptureEntity
 import com.herblabs.herbifyapp.databinding.ActivityMainBinding
+import com.herblabs.herbifyapp.utils.DummyData
 import com.herblabs.herbifyapp.view.ui.camera.CameraActivity
 import com.herblabs.herbifyapp.view.ui.identify.IdentifyActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,6 +32,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityMainBinding
     private lateinit var progressDialog: AlertDialog
+    private val viewModel : MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +45,6 @@ class MainActivity : AppCompatActivity() {
             menu.getItem(1).isEnabled = false
             setupWithNavController(navController)
         }
-
         progressDialog = getDialogProgressBar().create()
         binding.fab.setOnClickListener {
             dispatchTakePictureIntent()
@@ -48,6 +52,7 @@ class MainActivity : AppCompatActivity() {
         binding.fab.setOnClickListener {
             dispatchTakePictureIntent()
         }
+
     }
 
     private fun getDialogProgressBar(): AlertDialog.Builder {
@@ -73,7 +78,7 @@ class MainActivity : AppCompatActivity() {
     companion object{
         private const val REQUEST_IMAGE_CAPTURE = 100
         const val RESULT_IMAGE_CAPTURE = 101
-        private const val TAG = "MainActivity"
+        const val TAG = "MainActivity"
         const val EXTRA_IMAGE_URI = "extra_image_uri"
         const val PATH_COLLECTION_HERBS = "herbs"
         const val PATH_COLLECTION_RECIPES = "recipes"
@@ -86,6 +91,15 @@ class MainActivity : AppCompatActivity() {
             val imageUri = data?.extras?.get(EXTRA_IMAGE_URI) as Uri
 
             Log.d("RESULT", "$imageUri")
+
+
+            val mCaptureEntity = CaptureEntity(imageUri = "$imageUri")
+            Log.d(TAG, mCaptureEntity.toString())
+
+            viewModel.addCapture(mCaptureEntity)
+            val captureId = 2 //TODO Should get from capture entity
+
+            viewModel.addPredicted(DummyData.getLabelPredicted(), captureId)
 
             Toast.makeText(this, "Here we go !", Toast.LENGTH_LONG).show()
             Intent(this, IdentifyActivity::class.java).apply {

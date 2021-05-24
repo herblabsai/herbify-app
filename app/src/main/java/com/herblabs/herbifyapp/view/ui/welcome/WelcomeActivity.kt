@@ -24,7 +24,6 @@ class WelcomeActivity : AppCompatActivity() {
             goToMainPage()
         }
 
-
         welcomeAdapter = WelcomeAdapter(listOf(
                 WelcomeModel(
                         "Identify Herbs",

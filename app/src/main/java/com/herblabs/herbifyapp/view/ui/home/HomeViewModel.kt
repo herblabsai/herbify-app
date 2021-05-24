@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.google.firebase.firestore.FirebaseFirestore
 import com.herblabs.herbifyapp.data.source.firebase.model.HerbsFirestore
 import com.herblabs.herbifyapp.data.source.firebase.model.Recipe
-import com.herblabs.herbifyapp.view.MainActivity
+import com.herblabs.herbifyapp.view.ui.main.MainActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
