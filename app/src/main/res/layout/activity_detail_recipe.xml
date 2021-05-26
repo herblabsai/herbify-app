@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.ui.detail.herb.DetailHerbActivity">
+    tools:context=".view.ui.detail.recipe.DetailRecipeActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
@@ -21,7 +21,7 @@
             app:contentScrim="@color/teal_100"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
             <ImageView
-                android:id="@+id/img_herb"
+                android:id="@+id/img_recipe"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 android:scaleType="centerCrop"
@@ -72,17 +72,6 @@
                 />
 
             <TextView
-                android:id="@+id/tv_latin_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:lineSpacingExtra="8sp"
-                android:layout_marginBottom="16dp"
-                android:text="@string/title"
-                android:textSize="14sp"
-                android:textColor="@color/gray400"
-                android:fontFamily="@font/source_sans_pro"/>
-
-            <TextView
                 android:id="@+id/tv_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -94,68 +83,54 @@
                 android:fontFamily="@font/source_sans_pro"/>
 
             <TextView
-                android:id="@+id/benefits"
+                android:id="@+id/ingredients"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:text="@string/benefits"
+                android:text="@string/ingredients"
                 android:textSize="18sp"
                 android:fontFamily="@font/source_sans_pro_semibold"/>
 
             <TextView
-                android:id="@+id/tv_benefits"
+                android:id="@+id/tv_ingredients"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:lineSpacingExtra="8sp"
                 android:layout_marginBottom="16dp"
-                android:text="@string/benefits"
+                android:text="@string/ingredients"
                 android:textSize="14sp"
                 android:textColor="@color/gray400"
                 android:fontFamily="@font/source_sans_pro"/>
 
             <TextView
-                android:id="@+id/dosage"
+                android:id="@+id/step"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:text="@string/dosage"
+                android:layout_marginBottom="8dp"
+                android:text="@string/step"
                 android:textSize="18sp"
                 android:fontFamily="@font/source_sans_pro_semibold"/>
-
-            <TextView
-                android:id="@+id/tv_dosage"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:lineSpacingExtra="8sp"
-                android:layout_marginBottom="16dp"
-                android:text="@string/dosage"
-                android:textSize="14sp"
-                android:textColor="@color/gray400"
-                android:fontFamily="@font/source_sans_pro"/>
-
-            <TextView
-                android:id="@+id/recipe"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:text="@string/recipe"
-                android:textSize="18sp"
-                android:fontFamily="@font/source_sans_pro_semibold"/>
-
-            <ProgressBar
-                android:id="@+id/progress_bar_herbs"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="16dp"
-                android:visibility="gone"/>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_recipes"
+                android:id="@+id/rv_step"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="24dp"
-                tools:listitem="@layout/item_top_recipes" />
+                android:lineSpacingExtra="8sp"
+                android:layout_marginBottom="16dp"
+                tools:listitem="@layout/item_step_recipe"
+                tools:itemCount="3"
+                android:textSize="14sp"
+                android:textColor="@color/gray400"
+                android:fontFamily="@font/source_sans_pro"/>
+
+            <TextView
+                android:id="@+id/tv_credit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/credit"
+                android:textColor="#3F51B5"
+                android:textSize="18sp"
+                android:fontFamily="@font/source_sans_pro_semibold"/>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

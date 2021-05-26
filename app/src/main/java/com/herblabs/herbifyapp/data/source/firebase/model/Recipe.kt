@@ -10,5 +10,7 @@ data class Recipe(
     val ingredients: List<String> = listOf(),
     val name: String = "",
     val overview: String = "",
-    val steps: List<Step> = listOf()
+    val steps: List<Step> = listOf(),
+    val isPopular: Boolean = false,
+    val referenceUrl: String = ""
 ): Parcelable

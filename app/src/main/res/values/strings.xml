@@ -22,4 +22,11 @@
     <string name="top_recipe">Top Recipe</string>
     <string name="herbs">Herbs</string>
     <string name="recipe">Recipe</string>
+    <string name="benefits">Benefits</string>
+    <string name="dosage">Dosage</string>
+    <string name="ingredients">Ingredients</string>
+    <string name="step">Step</string>
+    <string name="credit"><u>Credit</u></string>
+    <string name="example_number">1</string>
+    <string name="example_step">Sipkan bahan. Geprek Jahe. Larutkan gula merah.</string>
 </resources>

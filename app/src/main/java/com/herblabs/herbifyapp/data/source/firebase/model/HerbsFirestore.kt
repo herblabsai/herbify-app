@@ -10,5 +10,7 @@ data class HerbsFirestore(
     val latinName: String = "",
     val name: String = "",
     val overview: String = "",
-    val recipes: List<Recipe> = listOf()
+    val recipes: List<ListIdRecipe> = listOf(),
+    val dosage: List<String> = listOf(),
+    val benefits: List<String> = listOf(),
 ): Parcelable

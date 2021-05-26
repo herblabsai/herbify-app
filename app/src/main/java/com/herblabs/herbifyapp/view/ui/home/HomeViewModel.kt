@@ -30,7 +30,9 @@ class HomeViewModel : ViewModel() {
     fun getRecipes(db: FirebaseFirestore){
         uiScope.launch {
             try {
-                db.collection(MainActivity.PATH_COLLECTION_RECIPES).get()
+                db.collection(MainActivity.PATH_COLLECTION_RECIPES)
+                    .whereEqualTo("isPopular", true)
+                    .get()
                     .addOnCompleteListener {
                         val recipesList = it.result!!.toObjects(Recipe::class.java)
                         _recipe.postValue(recipesList)

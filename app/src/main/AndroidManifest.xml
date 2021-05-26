@@ -2,9 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.herblabs.herbifyapp">
-    <uses-feature android:name="android.hardware.camera.any" />
-    <uses-permission android:name="android.permission.CAMERA" />
 
+    <uses-feature android:name="android.hardware.camera.any" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -18,15 +19,15 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
-
     <application
+        android:name=".BaseApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Herbifyapp"
-        android:name=".BaseApplication">
+        android:theme="@style/Theme.Herbifyapp">
+        <activity android:name=".view.ui.detail.recipe.DetailRecipeActivity"/>
         <activity android:name=".view.ui.signin.SignInActivity" />
         <activity android:name=".view.ui.identify.IdentifyActivity" />
         <activity android:name=".view.ui.splashscreen.SplashScreenActivity">
@@ -40,6 +41,7 @@
         <activity android:name=".view.ui.search.SearchActivity" />
         <activity android:name=".view.ui.main.MainActivity" />
         <activity android:name=".view.ui.camera.CameraActivity" />
+        <activity android:name=".view.ui.detail.herb.DetailHerbActivity" />
 
         <meta-data
             android:name="preloaded_fonts"

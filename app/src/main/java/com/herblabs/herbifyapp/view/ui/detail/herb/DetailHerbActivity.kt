@@ -2,8 +2,8 @@ package com.herblabs.herbifyapp.view.ui.detail.herb
 
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -14,13 +14,12 @@ import com.herblabs.herbifyapp.data.source.firebase.model.HerbsFirestore
 import com.herblabs.herbifyapp.databinding.ActivityDetailHerbBinding
 import com.herblabs.herbifyapp.utils.HorizontalMarginItemDecoration
 import com.herblabs.herbifyapp.view.adapter.RecipesAdapter
-import com.herblabs.herbifyapp.view.ui.home.HomeViewModel
 
 class DetailHerbActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailHerbBinding
 
     private lateinit var recipesAdapter: RecipesAdapter
-    private lateinit var homeViewModel: HomeViewModel
+    private val detailHerbViewModel: DetailHerbViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,10 +41,47 @@ class DetailHerbActivity : AppCompatActivity() {
                     .error(R.drawable.ic_error))
             .into(binding.imgHerb)
 
-        // sementara menggunakan top recipes
+        if(herb?.benefits?.isNotEmpty() == true){
+            val builder = StringBuilder()
+
+            for(item in herb.benefits.indices){
+                builder.append("\u2022 " + herb.benefits[item] + "\n")
+            }
+
+            binding.tvBenefits.text = builder.toString()
+        }
+
+        if(herb?.dosage?.isNotEmpty() == true){
+            val builder = StringBuilder()
+
+            for(item in herb.dosage.indices){
+                builder.append("\u2022 " + herb.dosage[item] + "\n")
+            }
+
+            binding.tvDosage.text = builder.toString()
+        }else{
+            binding.tvDosage.visibility = View.GONE
+            binding.dosage.visibility = View.GONE
+        }
+
         val db = FirebaseFirestore.getInstance()
         showProgressBar(true)
-        getRecipes(db)
+
+        if (herb?.recipes?.isNotEmpty() == true) {
+            for(idRecipe in herb.recipes.indices){
+                detailHerbViewModel.getRecipes(db, herb.recipes[idRecipe].id)
+                detailHerbViewModel.recipe.observe({lifecycle}, {
+                    binding.rvRecipes.apply {
+                        recipesAdapter = RecipesAdapter(it)
+                        this.adapter = recipesAdapter
+                        this.layoutManager = LinearLayoutManager(this@DetailHerbActivity, LinearLayoutManager.HORIZONTAL, false)
+                        addItemDecoration(HorizontalMarginItemDecoration(24))
+                        recipesAdapter.notifyDataSetChanged()
+                        showProgressBar(false)
+                    }
+                })
+            }
+        }
 
         val collapsingToolbarLayout = binding.collapsingToolbar
         val appBarLayout = binding.appBar
@@ -71,22 +107,6 @@ class DetailHerbActivity : AppCompatActivity() {
         binding.btnBack.setOnClickListener{
             onBackPressed()
         }
-    }
-
-    private fun getRecipes(db: FirebaseFirestore) {
-        homeViewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
-
-        homeViewModel.getRecipes(db)
-        homeViewModel.recipe.observe({lifecycle}, {
-            binding.rvRecipes.apply {
-                recipesAdapter = RecipesAdapter(it)
-                this.adapter = recipesAdapter
-                this.layoutManager = LinearLayoutManager(this@DetailHerbActivity, LinearLayoutManager.HORIZONTAL, false)
-                addItemDecoration(HorizontalMarginItemDecoration(24))
-                recipesAdapter.notifyDataSetChanged()
-                showProgressBar(false)
-            }
-        })
     }
 
     private fun showProgressBar(state: Boolean){
