@@ -9,6 +9,7 @@ import android.util.Log
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
@@ -24,6 +25,7 @@ import com.google.firebase.storage.ktx.storage
 import com.herblabs.herbifyapp.R
 import com.herblabs.herbifyapp.databinding.ActivityCameraBinding
 import com.herblabs.herbifyapp.view.ui.main.MainActivity
+import com.herblabs.herbifyapp.vo.StatusMessage
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 import java.text.SimpleDateFormat
@@ -45,6 +47,8 @@ class CameraActivity : AppCompatActivity() {
     private lateinit var cameraExecutor: ExecutorService
     private lateinit var storageRef : StorageReference
     private lateinit var progressDialog: AlertDialog
+    private lateinit var savedUri: Uri
+    private val viewModel : CameraViewModel by viewModels()
 
 
     companion object {
@@ -66,6 +70,7 @@ class CameraActivity : AppCompatActivity() {
             ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
         }
 
+        // TODO : KALAU TIDAK TERPAKAI BISA DIHAPUS
         storageRef = firebase.storage.reference
 
         // Set up the listener for take photo button
@@ -93,9 +98,7 @@ class CameraActivity : AppCompatActivity() {
                 .Builder(photoFile)
                 .build()
 
-        // Set up image capture listener, which is triggered after photo has
-        // been taken
-
+        // Set up image capture listener, which is triggered after photo has been taken
         imageCapture.takePicture(outputOptions, ContextCompat.getMainExecutor(this), object : ImageCapture.OnImageSavedCallback {
                 override fun onError(exc: ImageCaptureException) {
                     Log.e(TAG, "Photo capture failed: ${exc.message}", exc)
@@ -103,31 +106,66 @@ class CameraActivity : AppCompatActivity() {
                 }
 
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
-                    val savedUri = Uri.fromFile(photoFile)
+                    savedUri = Uri.fromFile(photoFile)
                     val msg = "Photo capture succeeded: $savedUri"
                     Log.d(TAG, msg)
-
-                    val imageRef = storageRef.child("images/${SimpleDateFormat(FILENAME_FORMAT, Locale.US).format(System.currentTimeMillis())}.jpg")
-                    val uploadTask = imageRef.putFile(savedUri)
 
                     val intent = Intent().apply {
                         putExtra(MainActivity.EXTRA_IMAGE_URI, savedUri)
                     }
 
-                    uploadTask.addOnFailureListener {
-                        progressDialog.dismiss()
-                        Log.d(TAG, "onUploadResult: ${it.message}")
-                        Toast.makeText(this@CameraActivity, "Error :( ${it.message.toString()}", Toast.LENGTH_LONG).show()
-                    }.addOnSuccessListener {
-                        progressDialog.dismiss()
-                        setResult(MainActivity.RESULT_IMAGE_CAPTURE, intent)
-                        finish()
-                    }.addOnProgressListener {
-                        progressDialog.show()
-                    }
-
+                    // Upload Image
+                    uploadImage(photoFile, intent)
                 }
             })
+    }
+
+    private fun uploadImage(photoFile: File , intent: Intent) {
+        viewModel.uploadPredict(photoFile).observe(this@CameraActivity, { result ->
+            if (result!=null){
+                when(result.status){
+                    StatusMessage.LOADING -> progressDialog.show()
+                    StatusMessage.SUCCESS ->{
+                        progressDialog.dismiss()
+                        Log.d(TAG, "${result.data}")
+                        setResult(MainActivity.RESULT_IMAGE_CAPTURE, intent)
+                        finish()
+                    }
+                    StatusMessage.ERROR -> {
+                        progressDialog.dismiss()
+                        Log.e(TAG, "onUploadResult: ${result.message}")
+                        Toast.makeText(this@CameraActivity, "Error :( ${result.message}", Toast.LENGTH_LONG).show()
+                    }
+                    else -> {
+                        progressDialog.dismiss()
+                        Toast.makeText(this@CameraActivity, "Data tidak ditemukan", Toast.LENGTH_LONG).show()
+                    }
+                }
+            } else{
+                Log.e(TAG, "onUploadResult: Result Null")
+            }
+        })
+
+
+        /**
+        UPLOUD KE FIRESTORE
+        KEMUNGKINAN TIDAK TERPAKAI
+
+        val imageRef = storageRef.child("images/${SimpleDateFormat(FILENAME_FORMAT, Locale.US).format(System.currentTimeMillis())}.jpg")
+        val uploadTask = imageRef.putFile(savedUri)
+
+        uploadTask.addOnFailureListener {
+        progressDialog.dismiss()
+        Log.d(TAG, "onUploadResult: ${it.message}")
+        Toast.makeText(this@CameraActivity, "Error :( ${it.message.toString()}", Toast.LENGTH_LONG).show()
+        }.addOnSuccessListener {
+        progressDialog.dismiss()
+        setResult(MainActivity.RESULT_IMAGE_CAPTURE, intent)
+        finish()
+        }.addOnProgressListener {
+        progressDialog.show()
+        }
+         */
     }
 
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
@@ -165,7 +203,7 @@ class CameraActivity : AppCompatActivity() {
     private fun startCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
 
-        cameraProviderFuture.addListener(Runnable {
+        cameraProviderFuture.addListener({
             // Used to bind the lifecycle of cameras to the lifecycle owner
             val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
             // Preview

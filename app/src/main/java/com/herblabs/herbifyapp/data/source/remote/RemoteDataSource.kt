@@ -1,11 +1,13 @@
 package com.herblabs.herbifyapp.data.source.remote
 
 import android.util.Log
-import com.herblabs.herbifyapp.data.source.remote.model.PredictModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.herblabs.herbifyapp.data.source.remote.network.ApiService
 import com.herblabs.herbifyapp.data.source.remote.response.Data
 import com.herblabs.herbifyapp.data.source.remote.response.HerbsResponse
-import kotlinx.coroutines.InternalCoroutinesApi
+import com.herblabs.herbifyapp.vo.Resource
+import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -14,35 +16,32 @@ import javax.inject.Inject
 class RemoteDataSource @Inject constructor(private val apiService: ApiService) {
     companion object{
         const val TAG = "RemoteDataSource"
-
-        @Volatile
-        private var instance: RemoteDataSource? = null
-        @InternalCoroutinesApi
-        fun getInstance(helper: ApiService): RemoteDataSource =
-            instance ?: kotlinx.coroutines.internal.synchronized(this) {
-                instance ?: RemoteDataSource(helper)
-            }
     }
 
-    fun getPredict(predictModel: PredictModel, callback: LoadPredictCallback){
-        apiService.getPredict(predictModel).enqueue(object : Callback<HerbsResponse>{
+    fun getPredict(part: MultipartBody.Part) : LiveData<Resource<List<Data>>> {
+
+        val listPredicted = MutableLiveData<Resource<List<Data>>>()
+        listPredicted.value = Resource.loading( null )
+        apiService.getPredict(part).enqueue(object : Callback<HerbsResponse>{
             override fun onResponse(call: Call<HerbsResponse>, response: Response<HerbsResponse>) {
-                if(response.isSuccessful){
-                    val predict = response.body()?.data
-                    if(predict != null){
-                        callback.onPredictReceive(predict)
+                if (response.isSuccessful) {
+                    if (response.body()!!.data.isNotEmpty()){
+                        listPredicted.value = Resource.success( response.body()?.data )
+                    } else {
+                        listPredicted.value = Resource.empty( response.message(), response.body()?.data )
                     }
+                }else{
+                    listPredicted.value = Resource.error( response.message(), null )
                 }
             }
-
             override fun onFailure(call: Call<HerbsResponse>, t: Throwable) {
                 Log.d(TAG, "onFailure: ${t.message.toString()}")
+                listPredicted.value = Resource.error( t.message, null )
             }
 
         })
+
+        return listPredicted
     }
 
-    interface LoadPredictCallback {
-        fun onPredictReceive(predictResponse: List<Data>)
-    }
 }

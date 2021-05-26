@@ -1,15 +1,15 @@
 {
   "data" : [
     {
-      "plant" :"Kumis Kucing",
+      "name" :"Kumis Kucing",
       "confident" : 98.5
     },
     {
-      "plant" :"Valerian",
+      "name" :"Valerian",
       "confident" : 70
     },
     {
-      "plant" : "Meniran",
+      "name" : "Meniran",
       "confident" : 60
     }
   ]

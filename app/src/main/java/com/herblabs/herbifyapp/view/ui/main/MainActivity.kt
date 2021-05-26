@@ -92,12 +92,11 @@ class MainActivity : AppCompatActivity() {
 
             Log.d("RESULT", "$imageUri")
 
-
             val mCaptureEntity = CaptureEntity(imageUri = "$imageUri")
             Log.d(TAG, mCaptureEntity.toString())
 
             viewModel.addCapture(mCaptureEntity)
-            val captureId = 2 //TODO Should get from capture entity
+            val captureId = 3 //TODO Should get from capture entity
 
             viewModel.addPredicted(DummyData.getLabelPredicted(), captureId)
 

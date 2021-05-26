@@ -1,7 +1,6 @@
 package com.herblabs.herbifyapp.data
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.herblabs.herbifyapp.data.source.local.LocalDataSource
@@ -9,9 +8,10 @@ import com.herblabs.herbifyapp.data.source.local.entity.CaptureEntity
 import com.herblabs.herbifyapp.data.source.local.entity.CaptureWithPredicted
 import com.herblabs.herbifyapp.data.source.local.entity.PredictedEntity
 import com.herblabs.herbifyapp.data.source.remote.RemoteDataSource
-import com.herblabs.herbifyapp.data.source.remote.model.PredictModel
 import com.herblabs.herbifyapp.data.source.remote.response.Data
 import com.herblabs.herbifyapp.utils.AppExecutors
+import com.herblabs.herbifyapp.vo.Resource
+import okhttp3.MultipartBody
 import javax.inject.Inject
 
 class HerbsRepository @Inject constructor(
@@ -19,20 +19,14 @@ class HerbsRepository @Inject constructor(
     private val localDataSource: LocalDataSource,
     private val appExecutors: AppExecutors
 ): HerbsDataSource{
-
     /**
      * REMOTE
      **/
 
-    override fun getPredict(predictModel: PredictModel): LiveData<List<Data>> {
-        val predict = MutableLiveData<List<Data>>()
-        remoteDataSource.getPredict(predictModel, object : RemoteDataSource.LoadPredictCallback{
-            override fun onPredictReceive(predictResponse: List<Data>) {
-                predict.postValue(predictResponse)
-            }
-        })
-        return predict
+    override fun getPredict(part: MultipartBody.Part): LiveData<Resource<List<Data>>> {
+        return remoteDataSource.getPredict(part)
     }
+
 
     /**
      * LOCAL

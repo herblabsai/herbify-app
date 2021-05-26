@@ -32,7 +32,7 @@ class MainViewModel @Inject constructor(
                     "_${i+1}",
                     captureId,
                     labelPredicted[i].plant,
-                    labelPredicted[i].score
+                    labelPredicted[i].confident
             ).apply {
                 mHerbsRepository.addPredicted(this)
             }
