@@ -6,10 +6,11 @@ import com.herblabs.herbifyapp.data.source.local.db.HerbifyDao
 import com.herblabs.herbifyapp.data.source.local.entity.CaptureEntity
 import com.herblabs.herbifyapp.data.source.local.entity.CaptureWithPredicted
 import com.herblabs.herbifyapp.data.source.local.entity.PredictedEntity
-import kotlinx.coroutines.InternalCoroutinesApi
 import javax.inject.Inject
 
-class LocalDataSource @Inject constructor(private val herbifyDao: HerbifyDao){
+class LocalDataSource @Inject constructor(
+        private val herbifyDao: HerbifyDao
+)  {
 
     fun addCapture(userCaptureEntity: CaptureEntity) {
         herbifyDao.addCapture(userCaptureEntity)
@@ -27,5 +28,7 @@ class LocalDataSource @Inject constructor(private val herbifyDao: HerbifyDao){
         return herbifyDao.getCourseWithModuleById(captureId)
     }
 
-
+    fun getLastedCapture() : LiveData<List<CaptureEntity>> {
+        return herbifyDao.getLastedCapture()
+    }
 }

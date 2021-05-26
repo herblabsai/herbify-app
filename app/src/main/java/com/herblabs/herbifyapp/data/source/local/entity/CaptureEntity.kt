@@ -1,10 +1,13 @@
 package com.herblabs.herbifyapp.data.source.local.entity
 
+import android.os.Parcelable
 import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 @Entity(tableName = "capture")
 data class CaptureEntity(
     @PrimaryKey(autoGenerate = true)
@@ -15,4 +18,4 @@ data class CaptureEntity(
     @NonNull
     @ColumnInfo(name = "imageUri")
     var imageUri : String? = ""
-)
+) : Parcelable

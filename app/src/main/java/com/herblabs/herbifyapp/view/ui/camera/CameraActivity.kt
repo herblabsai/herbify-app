@@ -19,10 +19,8 @@ import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.StorageReference
-import com.google.firebase.storage.ktx.storage
 import com.herblabs.herbifyapp.R
+import com.herblabs.herbifyapp.data.source.local.entity.CaptureEntity
 import com.herblabs.herbifyapp.databinding.ActivityCameraBinding
 import com.herblabs.herbifyapp.view.ui.main.MainActivity
 import com.herblabs.herbifyapp.vo.StatusMessage
@@ -32,7 +30,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class CameraActivity : AppCompatActivity() {
@@ -40,16 +37,11 @@ class CameraActivity : AppCompatActivity() {
     private var imageCapture: ImageCapture? = null
     private lateinit var binding: ActivityCameraBinding
 
-    @Inject
-    lateinit var firebase : Firebase
-
     private lateinit var outputDirectory: File
     private lateinit var cameraExecutor: ExecutorService
-    private lateinit var storageRef : StorageReference
     private lateinit var progressDialog: AlertDialog
     private lateinit var savedUri: Uri
     private val viewModel : CameraViewModel by viewModels()
-
 
     companion object {
         private const val TAG = "CameraActivity"
@@ -69,9 +61,6 @@ class CameraActivity : AppCompatActivity() {
         } else {
             ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
         }
-
-        // TODO : KALAU TIDAK TERPAKAI BISA DIHAPUS
-        storageRef = firebase.storage.reference
 
         // Set up the listener for take photo button
         binding.cameraCaptureButton.setOnClickListener { takePhoto() }
@@ -110,31 +99,44 @@ class CameraActivity : AppCompatActivity() {
                     val msg = "Photo capture succeeded: $savedUri"
                     Log.d(TAG, msg)
 
-                    val intent = Intent().apply {
-                        putExtra(MainActivity.EXTRA_IMAGE_URI, savedUri)
-                    }
-
                     // Upload Image
-                    uploadImage(photoFile, intent)
+                    uploadImage(photoFile)
                 }
             })
     }
 
-    private fun uploadImage(photoFile: File , intent: Intent) {
+    private fun uploadImage(photoFile: File) {
+
         viewModel.uploadPredict(photoFile).observe(this@CameraActivity, { result ->
             if (result!=null){
                 when(result.status){
                     StatusMessage.LOADING -> progressDialog.show()
                     StatusMessage.SUCCESS ->{
                         progressDialog.dismiss()
-                        Log.d(TAG, "${result.data}")
-                        setResult(MainActivity.RESULT_IMAGE_CAPTURE, intent)
-                        finish()
+
+                        addCaptureToDB() //add Image Capture to DB
+                        Log.d(TAG, "STATUS SUCCESS :${result.data}")
+                        Intent().apply{
+                            this.putExtra(MainActivity.EXTRA_RESULT_PREDICTED, result.data)
+                            setResult(MainActivity.RESULT_IMAGE_CAPTURE, this)
+                            finish()
+                        }
                     }
                     StatusMessage.ERROR -> {
                         progressDialog.dismiss()
                         Log.e(TAG, "onUploadResult: ${result.message}")
-                        Toast.makeText(this@CameraActivity, "Error :( ${result.message}", Toast.LENGTH_LONG).show()
+//                        Toast.makeText(this@CameraActivity, "Error :( ${result.message}", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this@CameraActivity, "Error :( )", Toast.LENGTH_LONG).show()
+                        // TODO : HANYA UNTUK TEST, NANTI DI HAPUS
+                        // -------------------------------------------------
+                        addCaptureToDB()  //add Image Capture to DB
+                        Log.d(TAG, "STATUS ERROR : ${result.data}")
+                        Intent().apply{
+                            this.putExtra(MainActivity.EXTRA_RESULT_PREDICTED, result.data)
+                            setResult(MainActivity.RESULT_IMAGE_CAPTURE, this)
+                            finish()
+                        }
+                        // --------------------------------------------------
                     }
                     else -> {
                         progressDialog.dismiss()
@@ -145,27 +147,12 @@ class CameraActivity : AppCompatActivity() {
                 Log.e(TAG, "onUploadResult: Result Null")
             }
         })
+    }
 
-
-        /**
-        UPLOUD KE FIRESTORE
-        KEMUNGKINAN TIDAK TERPAKAI
-
-        val imageRef = storageRef.child("images/${SimpleDateFormat(FILENAME_FORMAT, Locale.US).format(System.currentTimeMillis())}.jpg")
-        val uploadTask = imageRef.putFile(savedUri)
-
-        uploadTask.addOnFailureListener {
-        progressDialog.dismiss()
-        Log.d(TAG, "onUploadResult: ${it.message}")
-        Toast.makeText(this@CameraActivity, "Error :( ${it.message.toString()}", Toast.LENGTH_LONG).show()
-        }.addOnSuccessListener {
-        progressDialog.dismiss()
-        setResult(MainActivity.RESULT_IMAGE_CAPTURE, intent)
-        finish()
-        }.addOnProgressListener {
-        progressDialog.show()
-        }
-         */
+    private fun addCaptureToDB(){
+        val mCaptureEntity = CaptureEntity(imageUri = "$savedUri")
+        Log.d(MainActivity.TAG, mCaptureEntity.toString())
+        viewModel.addCapture(mCaptureEntity)
     }
 
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {

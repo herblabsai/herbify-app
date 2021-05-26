@@ -1,8 +1,6 @@
 package com.herblabs.herbifyapp.view.ui.main
 
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -17,6 +15,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.firebase.ktx.Firebase
 import com.herblabs.herbifyapp.R
 import com.herblabs.herbifyapp.data.source.local.entity.CaptureEntity
+import com.herblabs.herbifyapp.data.source.remote.response.HerbsResponse
 import com.herblabs.herbifyapp.databinding.ActivityMainBinding
 import com.herblabs.herbifyapp.utils.DummyData
 import com.herblabs.herbifyapp.view.ui.camera.CameraActivity
@@ -27,11 +26,9 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    @Inject
-    lateinit var firebase : Firebase
-
     private lateinit var binding : ActivityMainBinding
     private lateinit var progressDialog: AlertDialog
+    private lateinit var captureEntity: CaptureEntity
     private val viewModel : MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -78,8 +75,9 @@ class MainActivity : AppCompatActivity() {
     companion object{
         private const val REQUEST_IMAGE_CAPTURE = 100
         const val RESULT_IMAGE_CAPTURE = 101
-        const val TAG = "MainActivity"
-        const val EXTRA_IMAGE_URI = "extra_image_uri"
+        const val TAG = "MainActivity!!"
+        const val EXTRA_CAPTURE = "extra_capture"
+        const val EXTRA_RESULT_PREDICTED= "extra_result_predicted"
         const val PATH_COLLECTION_HERBS = "herbs"
         const val PATH_COLLECTION_RECIPES = "recipes"
     }
@@ -88,68 +86,33 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_IMAGE_CAPTURE) {
-            val imageUri = data?.extras?.get(EXTRA_IMAGE_URI) as Uri
+            try {
+                val herbsResponse = data?.getParcelableExtra<HerbsResponse>(EXTRA_RESULT_PREDICTED)
 
-            Log.d("RESULT", "$imageUri")
+                viewModel.getLastedCapture().observe(this, {
+                    captureEntity = it[0]
+                    Log.d(TAG, "4 : $captureEntity")
+                    if (herbsResponse != null) {
+                        insertPredicted(herbsResponse)
+                    }
+                })
 
-            val mCaptureEntity = CaptureEntity(imageUri = "$imageUri")
-            Log.d(TAG, mCaptureEntity.toString())
+            } catch (e:Exception){
+                Log.e(TAG, "${e.message}")
+            }
+        }
+    }
 
-            viewModel.addCapture(mCaptureEntity)
-            val captureId = 3 //TODO Should get from capture entity
+    private fun insertPredicted(herbsResponse: HerbsResponse){
+        if (captureEntity.captureId != 0) {
+            Log.d(TAG, "$captureEntity")
+            viewModel.addPredicted(herbsResponse,captureEntity)
 
-            viewModel.addPredicted(DummyData.getLabelPredicted(), captureId)
-
-            Toast.makeText(this, "Here we go !", Toast.LENGTH_LONG).show()
-            Intent(this, IdentifyActivity::class.java).apply {
-                putExtra(EXTRA_IMAGE_URI, imageUri)
+            Toast.makeText(this@MainActivity, "Here we go !", Toast.LENGTH_LONG).show()
+            Intent(this@MainActivity, IdentifyActivity::class.java).apply {
+                putExtra(EXTRA_CAPTURE, captureEntity)
                 startActivity(this)
             }
         }
     }
-
-/*
-    private fun dispatchTakePictureIntent() {
-        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        try {
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
-        } catch (e: IOException) {
-            Log.d(TAG, "dispatchTakePictureIntent: ${e.message}")
-        }
-    }
-
-    @SuppressLint("SimpleDateFormat")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            val imageBitmap = data?.extras?.get("data") as Bitmap
-            val baos = ByteArrayOutputStream()
-            imageBitmap.run {
-                compress(Bitmap.CompressFormat.JPEG, 100, baos)
-            }
-            val data = baos.toByteArray()
-
-            val imageRef = storageRef.child("images/$timeStamp")
-
-            val uploadTask = imageRef.putBytes(data)
-            uploadTask.addOnFailureListener {
-                progressDialog.dismiss()
-                Log.d(TAG, "onActivityResult: ${it.message}")
-                Toast.makeText(this, "Error :( ${it.message.toString()}", Toast.LENGTH_LONG).show()
-            }.addOnSuccessListener {
-                progressDialog.dismiss()
-                Toast.makeText(this, "Here we go !", Toast.LENGTH_LONG).show()
-                Intent(this, IdentifyActivity::class.java).apply {
-                    putExtra(EXTRA_IMAGE, imageBitmap)
-                    startActivity(this)
-                }
-            }.addOnProgressListener {
-                progressDialog.show()
-            }
-        }
-    }
- */
-
 }

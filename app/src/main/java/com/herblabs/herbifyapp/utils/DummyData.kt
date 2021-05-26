@@ -1,30 +1,28 @@
 package com.herblabs.herbifyapp.utils
 
 import com.google.gson.Gson
-import com.herblabs.herbifyapp.data.source.local.entity.PredictedEntity
-import com.herblabs.herbifyapp.data.source.remote.response.Data
 import com.herblabs.herbifyapp.data.source.remote.response.HerbsResponse
 
 object DummyData {
 
-    fun getLabelPredicted(): List<Data> {
+    fun getHerbResponse(): HerbsResponse {
         val json = "{\n" +
                 "  \"data\" : [\n" +
                 "    {\n" +
-                "      \"plant\" :\"Kumis Kucing\",\n" +
-                "      \"score\" : 98.5\n" +
+                "      \"name\" :\"Kumis Kucing\",\n" +
+                "      \"confident\" : 98.5\n" +
                 "    },\n" +
                 "    {\n" +
-                "      \"plant\" :\"Valerian\",\n" +
-                "      \"score\" : 70\n" +
+                "      \"name\" :\"Valerian\",\n" +
+                "      \"confident\" : 70\n" +
                 "    },\n" +
                 "    {\n" +
-                "      \"plant\" : \"Meniran\",\n" +
-                "      \"score\" : 60\n" +
+                "      \"name\" : \"Meniran\",\n" +
+                "      \"confident\" : 60\n" +
                 "    }\n" +
                 "  ]\n" +
                 "}"
-        val response =  Gson().fromJson(json, HerbsResponse::class.java)
-        return response.data
+        return Gson().fromJson(json, HerbsResponse::class.java)
     }
+
 }

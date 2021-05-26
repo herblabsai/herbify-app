@@ -62,9 +62,9 @@ object DataModule {
     @Provides
     @Singleton
     fun provideRemoteDataSource(
-        herbifyDao: HerbifyDao
+        apiService: ApiService
     ) : RemoteDataSource {
-        return RemoteDataSource(provideApiService())
+        return RemoteDataSource(apiService)
     }
 
     @Provides

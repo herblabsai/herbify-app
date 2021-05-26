@@ -18,30 +18,30 @@ class RemoteDataSource @Inject constructor(private val apiService: ApiService) {
         const val TAG = "RemoteDataSource"
     }
 
-    fun getPredict(part: MultipartBody.Part) : LiveData<Resource<List<Data>>> {
+    fun getPredict(part: MultipartBody.Part) : LiveData<Resource<HerbsResponse>> {
 
-        val listPredicted = MutableLiveData<Resource<List<Data>>>()
-        listPredicted.value = Resource.loading( null )
+        val predictedResponse = MutableLiveData<Resource<HerbsResponse>>()
+        predictedResponse.value = Resource.loading( null )
         apiService.getPredict(part).enqueue(object : Callback<HerbsResponse>{
             override fun onResponse(call: Call<HerbsResponse>, response: Response<HerbsResponse>) {
                 if (response.isSuccessful) {
-                    if (response.body()!!.data.isNotEmpty()){
-                        listPredicted.value = Resource.success( response.body()?.data )
+                    if (response.body()?.data != null){
+                        predictedResponse.value = Resource.success( response.body() )
                     } else {
-                        listPredicted.value = Resource.empty( response.message(), response.body()?.data )
+                        predictedResponse.value = Resource.empty( response.message(), null)
                     }
                 }else{
-                    listPredicted.value = Resource.error( response.message(), null )
+                    predictedResponse.value = Resource.error( response.message(), null )
                 }
             }
             override fun onFailure(call: Call<HerbsResponse>, t: Throwable) {
                 Log.d(TAG, "onFailure: ${t.message.toString()}")
-                listPredicted.value = Resource.error( t.message, null )
+                predictedResponse.value = Resource.error( t.message, null )
             }
 
         })
 
-        return listPredicted
+        return predictedResponse
     }
 
 }

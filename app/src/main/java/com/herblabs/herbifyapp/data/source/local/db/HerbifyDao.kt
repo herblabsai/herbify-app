@@ -10,6 +10,12 @@ import com.herblabs.herbifyapp.data.source.local.entity.PredictedEntity
 @Dao
 interface HerbifyDao {
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun addCapture(entity: CaptureEntity)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun addPredicted(entity: PredictedEntity)
+
     @Query("SELECT * FROM capture")
     fun getCapture(): DataSource.Factory<Int, CaptureEntity>
 
@@ -17,10 +23,7 @@ interface HerbifyDao {
     @Query("SELECT * FROM capture WHERE captureId = :captureId")
     fun getCourseWithModuleById(captureId: Int): LiveData<CaptureWithPredicted>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun addCapture(entity: CaptureEntity)
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun addPredicted(entity: PredictedEntity)
+    @Query("SELECT * FROM capture ORDER BY captureId DESC LIMIT 1")
+    fun getLastedCapture(): LiveData<List<CaptureEntity>>
 
 }
