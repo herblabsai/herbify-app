@@ -116,8 +116,9 @@ class CameraActivity : AppCompatActivity() {
                         progressDialog.dismiss()
                         addCaptureToDB() //add Image Capture to DB
                         Log.d(TAG, "STATUS SUCCESS :${result.data}")
+                        Toast.makeText(this@CameraActivity, "Success :)", Toast.LENGTH_LONG).show()
                         Intent().apply{
-                            this.putExtra(MainActivity.EXTRA_RESULT_PREDICTED, herbsResponseCustom) // custom nanti diganti result.data
+                            this.putExtra(MainActivity.EXTRA_RESULT_PREDICTED, result.data) // custom nanti diganti result.data
                             setResult(MainActivity.RESULT_IMAGE_CAPTURE, this)
                             finish()
                         }
