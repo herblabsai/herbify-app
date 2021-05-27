@@ -22,6 +22,7 @@ import androidx.core.content.ContextCompat
 import com.herblabs.herbifyapp.R
 import com.herblabs.herbifyapp.data.source.local.entity.CaptureEntity
 import com.herblabs.herbifyapp.databinding.ActivityCameraBinding
+import com.herblabs.herbifyapp.utils.DummyData
 import com.herblabs.herbifyapp.view.ui.main.MainActivity
 import com.herblabs.herbifyapp.vo.StatusMessage
 import dagger.hilt.android.AndroidEntryPoint
@@ -106,18 +107,17 @@ class CameraActivity : AppCompatActivity() {
     }
 
     private fun uploadImage(photoFile: File) {
-
+        val herbsResponseCustom = DummyData.getHerbResponse()
         viewModel.uploadPredict(photoFile).observe(this@CameraActivity, { result ->
             if (result!=null){
                 when(result.status){
                     StatusMessage.LOADING -> progressDialog.show()
                     StatusMessage.SUCCESS ->{
                         progressDialog.dismiss()
-
                         addCaptureToDB() //add Image Capture to DB
                         Log.d(TAG, "STATUS SUCCESS :${result.data}")
                         Intent().apply{
-                            this.putExtra(MainActivity.EXTRA_RESULT_PREDICTED, result.data)
+                            this.putExtra(MainActivity.EXTRA_RESULT_PREDICTED, herbsResponseCustom) // custom nanti diganti result.data
                             setResult(MainActivity.RESULT_IMAGE_CAPTURE, this)
                             finish()
                         }
@@ -132,7 +132,7 @@ class CameraActivity : AppCompatActivity() {
                         addCaptureToDB()  //add Image Capture to DB
                         Log.d(TAG, "STATUS ERROR : ${result.data}")
                         Intent().apply{
-                            this.putExtra(MainActivity.EXTRA_RESULT_PREDICTED, result.data)
+                            this.putExtra(MainActivity.EXTRA_RESULT_PREDICTED, herbsResponseCustom)
                             setResult(MainActivity.RESULT_IMAGE_CAPTURE, this)
                             finish()
                         }
