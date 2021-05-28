@@ -20,7 +20,7 @@ class LocalDataSource @Inject constructor(
         herbifyDao.addPredicted(predictedEntity)
     }
 
-    fun getAllFavorite(): DataSource.Factory<Int, CaptureEntity> {
+    fun getAllCapture(): DataSource.Factory<Int, CaptureEntity> {
         return herbifyDao.getCapture()
     }
 

@@ -32,5 +32,5 @@ data class PredictedEntity (
 
     @NonNull
     @ColumnInfo(name = "confident")
-    var confident : Double = 0.0
+    var confident : Int = 0
 )

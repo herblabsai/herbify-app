@@ -57,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/top_recipes"
                 android:layout_marginTop="-1dp"
-                tools:itemCount="3"
+                tools:itemCount="1"
                 tools:listitem="@layout/item_top_recipes" />
 
             <ProgressBar

@@ -2,8 +2,10 @@ package com.herblabs.herbifyapp.di
 
 import android.app.Application
 import androidx.room.Room
+import com.google.firebase.firestore.FirebaseFirestore
 import com.herblabs.herbifyapp.data.HerbsDataSource
 import com.herblabs.herbifyapp.data.HerbsRepository
+import com.herblabs.herbifyapp.data.source.firebase.FirestoreDataStore
 import com.herblabs.herbifyapp.data.source.local.LocalDataSource
 import com.herblabs.herbifyapp.data.source.local.db.HerbifyDB
 import com.herblabs.herbifyapp.data.source.local.db.HerbifyDao
@@ -61,10 +63,24 @@ object DataModule {
 
     @Provides
     @Singleton
+    fun provideFirestore(): FirebaseFirestore {
+        return FirebaseFirestore.getInstance()
+    }
+
+    @Provides
+    @Singleton
     fun provideRemoteDataSource(
         apiService: ApiService
     ) : RemoteDataSource {
         return RemoteDataSource(apiService)
+    }
+
+    @Provides
+    @Singleton
+    fun provideFirestoreDataStore(
+        firebaseFirestore: FirebaseFirestore
+    ) : FirestoreDataStore {
+        return FirestoreDataStore(firebaseFirestore)
     }
 
     @Provides
@@ -76,10 +92,12 @@ object DataModule {
     fun provideHerbsRepository(
         remoteDataSource: RemoteDataSource,
         localDataSource: LocalDataSource,
+        firestoreDataStore: FirestoreDataStore,
         appExecutors: AppExecutors
     ) : HerbsDataSource {
-        return HerbsRepository(remoteDataSource, localDataSource, appExecutors)
+        return HerbsRepository(remoteDataSource, localDataSource, firestoreDataStore, appExecutors)
     }
+
 
 
 }

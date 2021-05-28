@@ -8,12 +8,13 @@ import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FirebaseFirestore
 import com.herblabs.herbifyapp.data.source.firebase.model.Recipe
 import com.herblabs.herbifyapp.view.ui.main.MainActivity
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class DetailHerbViewModel: ViewModel() {
+class DetailHerbViewModel : ViewModel() {
     private val TAG: String = "DetailViewModel"
     private val _recipe = MutableLiveData<List<Recipe>>()
 

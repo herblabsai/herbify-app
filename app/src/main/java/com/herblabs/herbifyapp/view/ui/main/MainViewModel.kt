@@ -3,15 +3,11 @@ package com.herblabs.herbifyapp.view.ui.main
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.herblabs.herbifyapp.data.HerbsRepository
 import com.herblabs.herbifyapp.data.source.local.entity.CaptureEntity
 import com.herblabs.herbifyapp.data.source.local.entity.PredictedEntity
 import com.herblabs.herbifyapp.data.source.remote.response.HerbsResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -41,10 +37,10 @@ class MainViewModel @Inject constructor(
             PredictedEntity(
                     predictedId,
                     captureId,
-                    labelPredicted[i].plant,
-                    labelPredicted[i].confident
-            ).apply {
-                mHerbsRepository.addPredicted(this)
+                    labelPredicted[i].name,
+                    labelPredicted[i].confident.toInt()
+            ).let {
+                mHerbsRepository.addPredicted(it)
             }
         }
     }

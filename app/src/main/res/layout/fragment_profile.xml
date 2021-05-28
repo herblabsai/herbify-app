@@ -71,31 +71,39 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:background="@drawable/bg_content"
-        android:paddingTop="16dp">
+        app:layout_scrollFlags=""
+        android:background="@drawable/bg_content">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingStart="16dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/history"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1"
-                android:layout_marginBottom="24dp"/>
-            <TextView
-                android:layout_width="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/source_sans_pro_semibold"
+                android:text="@string/history"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_capture"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="2"
-                android:layout_marginBottom="24dp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="3"
-                android:layout_marginBottom="24dp"/>
-        </LinearLayout>
+                android:layout_below="@id/history"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:spanCount="3"
+                tools:itemCount="20"
+                tools:listitem="@layout/item_capture" />
+
+        </RelativeLayout>
 
     </androidx.core.widget.NestedScrollView>
 

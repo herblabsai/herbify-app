@@ -12,6 +12,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import javax.inject.Inject
+import kotlin.math.log
 
 class RemoteDataSource @Inject constructor(private val apiService: ApiService) {
     companion object{
@@ -21,12 +22,30 @@ class RemoteDataSource @Inject constructor(private val apiService: ApiService) {
     fun getPredict(part: MultipartBody.Part) : LiveData<Resource<HerbsResponse>> {
 
         val predictedResponse = MutableLiveData<Resource<HerbsResponse>>()
+
         predictedResponse.value = Resource.loading( null )
         apiService.getPredict(part).enqueue(object : Callback<HerbsResponse>{
             override fun onResponse(call: Call<HerbsResponse>, response: Response<HerbsResponse>) {
                 if (response.isSuccessful) {
                     if (response.body()?.data != null){
-                        predictedResponse.value = Resource.success( response.body() )
+
+                        val listData = ArrayList<Data>()
+                        val getList : List<Data> = listData
+
+                        response.body()?.data?.forEach {
+                            if (it.confident > 0 ){
+                                Log.d(TAG, "STATUS SUCCESS 2: $it")
+                                listData.add(it)
+                            }
+                        }
+                        predictedResponse.value = Resource.success( HerbsResponse(
+                            getList.let { data ->
+                                data.sortedByDescending { it.confident }
+                                    .filterIndexed { index, _ ->
+                                        (index <= 2 )
+                                    }
+                            }
+                        ))
                     } else {
                         predictedResponse.value = Resource.empty( response.message(), null)
                     }

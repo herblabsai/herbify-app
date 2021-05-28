@@ -1,13 +1,13 @@
 package com.herblabs.herbifyapp.view.ui.home
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.lifecycle.ViewModelProviders
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.firestore.FirebaseFirestore
 import com.herblabs.herbifyapp.R
@@ -16,15 +16,17 @@ import com.herblabs.herbifyapp.utils.HorizontalMarginItemDecoration
 import com.herblabs.herbifyapp.utils.VerticalMarginItemDecoration
 import com.herblabs.herbifyapp.view.adapter.HerbsAdapter
 import com.herblabs.herbifyapp.view.adapter.RecipesAdapter
+import com.herblabs.herbifyapp.vo.StatusMessage
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding as FragmentHomeBinding
-    private lateinit var viewModel: HomeViewModel
     private lateinit var recipesAdapter: RecipesAdapter
     private lateinit var herbsAdapter: HerbsAdapter
-    private lateinit var homeViewModel: HomeViewModel
+    private val homeViewModel: HomeViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,9 +37,12 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
+    companion object{
+        const val TAG = "HomeFragment"
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
 
         setupToolbar()
 
@@ -56,6 +61,29 @@ class HomeFragment : Fragment() {
                     R.id.item_search -> {
 //                        val intent = Intent(context, SearchActivity::class.java)
 //                        startActivity(intent)
+                        // TODO : TEST DATA REPOSITORY
+                        /**
+                        homeViewModel.getHerbsByName("Meniran").observe(viewLifecycleOwner, { result ->
+                            if (result!=null){
+                                when(result.status){
+                                    StatusMessage.LOADING -> {
+                                        Log.d(TAG, "Loading....")
+                                    }
+                                    StatusMessage.SUCCESS ->{
+                                        Log.d(TAG, "Loading.... Done")
+                                        result.data?.forEach { herbs ->
+                                            Log.d(TAG, "Result : $herbs")
+                                        }
+                                    }
+                                    StatusMessage.ERROR -> {
+                                        Log.d(TAG, "Loading.... Done , Error")
+                                    }
+                                    else -> { }
+                                }
+                            }
+
+                        })
+                        **/
                         Toast.makeText(requireActivity(), "Coming Soon !", Toast.LENGTH_SHORT).show()
                     }
                 }
@@ -65,7 +93,6 @@ class HomeFragment : Fragment() {
     }
 
     private fun getRecipes(db: FirebaseFirestore) {
-        homeViewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
 
         homeViewModel.getRecipes(db)
         homeViewModel.recipe.observe({lifecycle}, {
@@ -81,7 +108,6 @@ class HomeFragment : Fragment() {
     }
 
     private fun getAllHerbs(db: FirebaseFirestore) {
-        homeViewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
 
         homeViewModel.getAllHerbs(db)
         homeViewModel.herbs.observe({lifecycle}, {

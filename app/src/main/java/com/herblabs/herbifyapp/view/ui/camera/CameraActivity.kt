@@ -22,7 +22,6 @@ import androidx.core.content.ContextCompat
 import com.herblabs.herbifyapp.R
 import com.herblabs.herbifyapp.data.source.local.entity.CaptureEntity
 import com.herblabs.herbifyapp.databinding.ActivityCameraBinding
-import com.herblabs.herbifyapp.utils.DummyData
 import com.herblabs.herbifyapp.view.ui.main.MainActivity
 import com.herblabs.herbifyapp.vo.StatusMessage
 import dagger.hilt.android.AndroidEntryPoint
@@ -107,7 +106,6 @@ class CameraActivity : AppCompatActivity() {
     }
 
     private fun uploadImage(photoFile: File) {
-        val herbsResponseCustom = DummyData.getHerbResponse()
         viewModel.uploadPredict(photoFile).observe(this@CameraActivity, { result ->
             if (result!=null){
                 when(result.status){
@@ -115,10 +113,9 @@ class CameraActivity : AppCompatActivity() {
                     StatusMessage.SUCCESS ->{
                         progressDialog.dismiss()
                         addCaptureToDB() //add Image Capture to DB
-                        Log.d(TAG, "STATUS SUCCESS :${result.data}")
-                        Toast.makeText(this@CameraActivity, "Success :)", Toast.LENGTH_LONG).show()
+                        Log.d(TAG, "onUploadResult :${result.data}")
                         Intent().apply{
-                            this.putExtra(MainActivity.EXTRA_RESULT_PREDICTED, result.data) // custom nanti diganti result.data
+                            this.putExtra(MainActivity.EXTRA_RESULT_PREDICTED, result.data)
                             setResult(MainActivity.RESULT_IMAGE_CAPTURE, this)
                             finish()
                         }
@@ -126,18 +123,7 @@ class CameraActivity : AppCompatActivity() {
                     StatusMessage.ERROR -> {
                         progressDialog.dismiss()
                         Log.e(TAG, "onUploadResult: ${result.message}")
-//                        Toast.makeText(this@CameraActivity, "Error :( ${result.message}", Toast.LENGTH_LONG).show()
-                        Toast.makeText(this@CameraActivity, "Error :( )", Toast.LENGTH_LONG).show()
-                        // TODO : HANYA UNTUK TEST, NANTI DI HAPUS
-                        // -------------------------------------------------
-                        addCaptureToDB()  //add Image Capture to DB
-                        Log.d(TAG, "STATUS ERROR : ${result.data}")
-                        Intent().apply{
-                            this.putExtra(MainActivity.EXTRA_RESULT_PREDICTED, herbsResponseCustom)
-                            setResult(MainActivity.RESULT_IMAGE_CAPTURE, this)
-                            finish()
-                        }
-                        // --------------------------------------------------
+                        Toast.makeText(this@CameraActivity, "Error Fetching data", Toast.LENGTH_LONG).show()
                     }
                     else -> {
                         progressDialog.dismiss()

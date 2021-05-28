@@ -4,16 +4,24 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.firebase.firestore.FirebaseFirestore
+import com.herblabs.herbifyapp.data.HerbsRepository
 import com.herblabs.herbifyapp.data.source.firebase.model.HerbsFirestore
 import com.herblabs.herbifyapp.data.source.firebase.model.Recipe
 import com.herblabs.herbifyapp.view.ui.main.MainActivity
+import com.herblabs.herbifyapp.vo.Resource
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class HomeViewModel : ViewModel() {
+@HiltViewModel
+class HomeViewModel @Inject constructor(
+    private val repository: HerbsRepository
+): ViewModel() {
     private val TAG: String = "HomeViewModel"
     private val _recipe = MutableLiveData<List<Recipe>>()
     private val _herbs = MutableLiveData<List<HerbsFirestore>>()
@@ -24,11 +32,9 @@ class HomeViewModel : ViewModel() {
     val herbs : LiveData<List<HerbsFirestore>>
         get() = _herbs
 
-    private var job = Job()
-    private val uiScope = CoroutineScope(job + Dispatchers.Main)
 
     fun getRecipes(db: FirebaseFirestore){
-        uiScope.launch {
+        viewModelScope.launch(Dispatchers.Main) {
             try {
                 db.collection(MainActivity.PATH_COLLECTION_RECIPES)
                     .whereEqualTo("isPopular", true)
@@ -47,7 +53,7 @@ class HomeViewModel : ViewModel() {
     }
 
     fun getAllHerbs(db: FirebaseFirestore){
-        uiScope.launch {
+        viewModelScope.launch(Dispatchers.Main) {
             try {
                 db.collection(MainActivity.PATH_COLLECTION_HERBS).get()
                     .addOnCompleteListener {
@@ -63,8 +69,10 @@ class HomeViewModel : ViewModel() {
         }
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        job.cancel()
+    // TEST
+    fun getHerbsByName(name: String): LiveData<Resource<List<HerbsFirestore>>> {
+        return repository.getHerbByName(name)
     }
+
+
 }

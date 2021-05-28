@@ -2,6 +2,8 @@ package com.herblabs.herbifyapp.data
 
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
+import com.herblabs.herbifyapp.data.source.firebase.model.HerbsFirestore
+import com.herblabs.herbifyapp.data.source.firebase.model.Recipe
 import com.herblabs.herbifyapp.data.source.local.entity.CaptureEntity
 import com.herblabs.herbifyapp.data.source.local.entity.CaptureWithPredicted
 import com.herblabs.herbifyapp.data.source.local.entity.PredictedEntity
@@ -22,7 +24,7 @@ interface HerbsDataSource {
      * LOCAL
      **/
 
-    fun getAllUserCapture() : LiveData<PagedList<CaptureEntity>>
+    fun getAllCapture() : LiveData<PagedList<CaptureEntity>>
 
     fun getCaptureWithPredicted(captureId : Int) : LiveData<CaptureWithPredicted>
 
@@ -32,4 +34,16 @@ interface HerbsDataSource {
 
     fun getLastedCapture(): LiveData<List<CaptureEntity>>
 
+
+    /**
+     * FIRESTORE
+     **/
+
+    fun getHerbs():  LiveData<Resource<List<HerbsFirestore>>>
+
+    fun getRecipes():  LiveData<Resource<List<Recipe>>>
+
+    fun getHerbByName(name: String):  LiveData<Resource<List<HerbsFirestore>>>
+
+    fun getRecipeByDocumentID(id: String):  LiveData<List<Recipe>>
 }

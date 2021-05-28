@@ -18,6 +18,7 @@ class IdentifyActivity : AppCompatActivity() {
 
     companion object {
         const val TAG = "IdentifyActivity"
+        const val EXTRA_CAPTURE = "extra_capture"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

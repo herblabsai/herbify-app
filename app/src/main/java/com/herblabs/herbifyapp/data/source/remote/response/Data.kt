@@ -8,7 +8,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class Data(
     @SerializedName("name")
-    val plant: String = "",
+    val name: String = "",
     @SerializedName("confident")
     val confident: Double = 0.0
 ) : Parcelable

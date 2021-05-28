@@ -3,6 +3,9 @@ package com.herblabs.herbifyapp.data
 import androidx.lifecycle.LiveData
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
+import com.herblabs.herbifyapp.data.source.firebase.FirestoreDataStore
+import com.herblabs.herbifyapp.data.source.firebase.model.HerbsFirestore
+import com.herblabs.herbifyapp.data.source.firebase.model.Recipe
 import com.herblabs.herbifyapp.data.source.local.LocalDataSource
 import com.herblabs.herbifyapp.data.source.local.entity.CaptureEntity
 import com.herblabs.herbifyapp.data.source.local.entity.CaptureWithPredicted
@@ -17,6 +20,7 @@ import javax.inject.Inject
 class HerbsRepository @Inject constructor(
     private val remoteDataSource: RemoteDataSource,
     private val localDataSource: LocalDataSource,
+    private val firestoreDataStore: FirestoreDataStore,
     private val appExecutors: AppExecutors
 ): HerbsDataSource{
     /**
@@ -32,14 +36,14 @@ class HerbsRepository @Inject constructor(
      * LOCAL
      **/
 
-    override fun getAllUserCapture(): LiveData<PagedList<CaptureEntity>> {
+    override fun getAllCapture(): LiveData<PagedList<CaptureEntity>> {
         val config = PagedList.Config.Builder()
             .setEnablePlaceholders(false)
             .setInitialLoadSizeHint(3)
             .setPageSize(3)
             .build()
 
-        return LivePagedListBuilder(localDataSource.getAllFavorite(), config).build()
+        return LivePagedListBuilder(localDataSource.getAllCapture(), config).build()
     }
     override fun getCaptureWithPredicted(captureId : Int): LiveData<CaptureWithPredicted> {
         return localDataSource.getCaptureWithPredicted(captureId)
@@ -56,5 +60,27 @@ class HerbsRepository @Inject constructor(
     override fun getLastedCapture(): LiveData<List<CaptureEntity>> {
         return localDataSource.getLastedCapture()
     }
+
+    /**
+     * FIREBASE
+     **/
+
+
+    override fun getHerbs(): LiveData<Resource<List<HerbsFirestore>>> {
+        return firestoreDataStore.getHerbs()
+    }
+
+    override fun getRecipes(): LiveData<Resource<List<Recipe>>> {
+        return firestoreDataStore.getRecipes()
+    }
+
+    override fun getHerbByName(name: String): LiveData<Resource<List<HerbsFirestore>>> {
+         return firestoreDataStore.getHerbsByName(name)
+    }
+
+    override fun getRecipeByDocumentID(id: String): LiveData<List<Recipe>> {
+        return firestoreDataStore.getRecipeByDocumentID(id)
+    }
+
 
 }

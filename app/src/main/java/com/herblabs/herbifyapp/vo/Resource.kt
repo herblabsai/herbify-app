@@ -1,7 +1,7 @@
 package com.herblabs.herbifyapp.vo
 
 /**
- * Bisa menggunaka class ini untuk menangani state service
+ * Bisa menggunaka class ini untuk menangani state service internet
  */
 class Resource<T>(val status: StatusMessage, val data: T?, val message: String?){
     companion object{

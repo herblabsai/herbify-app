@@ -8,12 +8,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.paging.PagedList
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.herblabs.herbifyapp.R
+import com.herblabs.herbifyapp.data.source.local.entity.CaptureEntity
 import com.herblabs.herbifyapp.databinding.FragmentProfileBinding
+import com.herblabs.herbifyapp.view.adapter.CaptureAdapter
 import com.herblabs.herbifyapp.view.ui.signin.SignInActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,6 +27,9 @@ class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var googleSignInClient: GoogleSignInClient
+
+    private lateinit var mCaptureAdapter : CaptureAdapter
+    private val viewModel : ProfileViewModel by viewModels()
 
     private val auth by lazy {
         FirebaseAuth.getInstance()
@@ -38,6 +46,11 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        mCaptureAdapter = CaptureAdapter(requireActivity())
+        binding.rvCapture.setHasFixedSize(false)
+        binding.rvCapture.adapter = mCaptureAdapter
+
+        viewModel.getCapture().observe(viewLifecycleOwner , captureObserver)
 
         if (activity != null) {
             val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -56,6 +69,28 @@ class ProfileFragment : Fragment() {
                 }
             }
         }
+
     }
+
+    private val captureObserver = Observer<PagedList<CaptureEntity>> { captureList ->
+        showWarning(false)
+        if (captureList != null) {
+            if (captureList.toString() == "[]"){
+                showWarning(true)
+            }
+            mCaptureAdapter.submitList(captureList)
+        }
+    }
+
+    private fun showWarning(state: Boolean) {
+        val stateView = if (state) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
+        // TODO : BUAT WARNING DATA KOSONG
+//        binding.warning.visibility = stateView
+    }
+
 
 }
