@@ -111,6 +111,7 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this@MainActivity, "Here we go !", Toast.LENGTH_LONG).show()
             Intent(this@MainActivity, IdentifyActivity::class.java).apply {
                 putExtra(EXTRA_CAPTURE, captureEntity)
+                putExtra("identify", herbsResponse)
                 startActivity(this)
             }
         }

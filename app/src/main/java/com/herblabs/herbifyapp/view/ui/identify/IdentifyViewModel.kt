@@ -5,7 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.herblabs.herbifyapp.data.HerbsRepository
+import com.herblabs.herbifyapp.data.source.local.entity.CaptureEntity
 import com.herblabs.herbifyapp.data.source.local.entity.CaptureWithPredicted
+import com.herblabs.herbifyapp.data.source.local.entity.PredictedEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

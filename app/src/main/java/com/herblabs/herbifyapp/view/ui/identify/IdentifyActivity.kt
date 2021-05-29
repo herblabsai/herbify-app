@@ -5,8 +5,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.herblabs.herbifyapp.data.source.local.entity.CaptureEntity
+import com.herblabs.herbifyapp.data.source.remote.response.HerbsResponse
 import com.herblabs.herbifyapp.databinding.ActivityIdentifyBinding
+import com.herblabs.herbifyapp.view.adapter.IdentifyAdapter
 import com.herblabs.herbifyapp.view.ui.main.MainActivity.Companion.EXTRA_CAPTURE
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -36,9 +39,22 @@ class IdentifyActivity : AppCompatActivity() {
                     Log.d(TAG,"${it.mCapture.captureId}")
                     Log.d(TAG,"${it.mCapture.imageUri}")
                     Log.d(TAG,"${it.mPredicted}")
+
                 }
             })
+
         }
+
+        val identify = intent.getParcelableExtra<HerbsResponse>("identify")
+        if(identify != null){
+            Log.d("Result", "onCreate: $identify")
+            val identifyAdapter = IdentifyAdapter(identify.data)
+            with(binding.rvResultIdentify){
+                layoutManager = LinearLayoutManager(this@IdentifyActivity)
+                adapter = identifyAdapter
+            }
+        }
+
 
 
         binding.toolbar.setNavigationOnClickListener {

@@ -38,7 +38,7 @@ class MainViewModel @Inject constructor(
                     predictedId,
                     captureId,
                     labelPredicted[i].name,
-                    labelPredicted[i].confident.toInt()
+                    labelPredicted[i].confident
             ).let {
                 mHerbsRepository.addPredicted(it)
             }

@@ -4,13 +4,18 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.herblabs.herbifyapp.data.source.local.entity.PredictedEntity
+import com.herblabs.herbifyapp.data.source.remote.response.Data
+import com.herblabs.herbifyapp.data.source.remote.response.HerbsResponse
 import com.herblabs.herbifyapp.databinding.ItemIdentifyBinding
+import kotlin.math.roundToInt
 
-class IdentifyAdapter(var predictedList: List<PredictedEntity>): RecyclerView.Adapter<IdentifyAdapter.IdentifyViewHolder>() {
+class IdentifyAdapter(var data: List<Data>): RecyclerView.Adapter<IdentifyAdapter.IdentifyViewHolder>() {
     class IdentifyViewHolder(private val binding: ItemIdentifyBinding): RecyclerView.ViewHolder(binding.root){
-        fun bind(predicted: PredictedEntity){
-            binding.tvName.text = predicted.label
-            binding.tvConfident.text = predicted.confident.toString()
+        fun bind(response: Data){
+            binding.tvName.text = response.name
+            val confident = response.confident.roundToInt()
+            val toString = "$confident%"
+            binding.tvConfident.text = toString
 //            Glide.with(itemView.context)
 //                .load(predicted.imageUrl)
 //                .apply(
@@ -34,9 +39,9 @@ class IdentifyAdapter(var predictedList: List<PredictedEntity>): RecyclerView.Ad
     }
 
     override fun onBindViewHolder(holder: IdentifyViewHolder, position: Int) {
-        val item = predictedList[position]
+        val item = data[position]
         holder.bind(item)
     }
 
-    override fun getItemCount(): Int = predictedList.size
+    override fun getItemCount(): Int = data.size
 }
