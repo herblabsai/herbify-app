@@ -64,6 +64,10 @@ class HerbsRepository @Inject constructor(
         return localDataSource.getLastedCapture()
     }
 
+    override fun getPredictedByCaptureId(captureId: Int): LiveData<List<PredictedEntity>> {
+        return localDataSource.getPredictedByCaptureId(captureId)
+    }
+
     /**
      * FIREBASE
      **/

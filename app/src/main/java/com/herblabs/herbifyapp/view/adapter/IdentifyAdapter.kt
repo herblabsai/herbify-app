@@ -12,9 +12,9 @@ import com.herblabs.herbifyapp.data.source.remote.response.HerbsResponse
 import com.herblabs.herbifyapp.databinding.ItemIdentifyBinding
 import kotlin.math.roundToInt
 
-class IdentifyAdapter(var data: List<Data>): RecyclerView.Adapter<IdentifyAdapter.IdentifyViewHolder>() {
+class IdentifyAdapter(var data: List<PredictedEntity>): RecyclerView.Adapter<IdentifyAdapter.IdentifyViewHolder>() {
     class IdentifyViewHolder(private val binding: ItemIdentifyBinding): RecyclerView.ViewHolder(binding.root){
-        fun bind(response: Data){
+        fun bind(response: PredictedEntity){
             binding.tvName.text = response.name
             val confident = response.confident.roundToInt()
             val toString = "$confident%"

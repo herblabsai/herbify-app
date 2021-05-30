@@ -31,4 +31,8 @@ class LocalDataSource @Inject constructor(
     fun getLastedCapture() : LiveData<List<CaptureEntity>> {
         return herbifyDao.getLastedCapture()
     }
+
+    fun getPredictedByCaptureId(captureId: Int): LiveData<List<PredictedEntity>> {
+        return  herbifyDao.getPredictedByCaptureId(captureId)
+    }
 }

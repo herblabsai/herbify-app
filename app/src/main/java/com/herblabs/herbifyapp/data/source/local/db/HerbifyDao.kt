@@ -26,4 +26,8 @@ interface HerbifyDao {
     @Query("SELECT * FROM capture ORDER BY captureId DESC LIMIT 1")
     fun getLastedCapture(): LiveData<List<CaptureEntity>>
 
+    @Query("SELECT * FROM predicted WHERE captureId = :captureId")
+    fun getPredictedByCaptureId(captureId: Int): LiveData<List<PredictedEntity>>
+
+
 }

@@ -35,6 +35,8 @@ interface HerbsDataSource {
 
     fun getLastedCapture(): LiveData<List<CaptureEntity>>
 
+    fun getPredictedByCaptureId(captureId: Int) : LiveData<List<PredictedEntity>>
+
 
     /**
      * FIRESTORE
@@ -49,4 +51,6 @@ interface HerbsDataSource {
     fun getRecipeByDocumentID(id: String):  LiveData<List<Recipe>>
 
     fun getRecipeByListID(listID: List<Int>):  MutableLiveData<Resource<List<Recipe>>>
+
+
 }

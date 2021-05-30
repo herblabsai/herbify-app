@@ -27,10 +27,14 @@ data class PredictedEntity (
     var captureId : Int = 0,
 
     @NonNull
-    @ColumnInfo(name = "label")
-    var label : String = "",
+    @ColumnInfo(name = "name")
+    var name : String = "",
 
     @NonNull
     @ColumnInfo(name = "confident")
-    var confident : Double = 0.0
+    var confident : Double = 0.0,
+
+    @NonNull
+    @ColumnInfo(name = "imageUrl")
+    val imageUrl: String = "",
 )

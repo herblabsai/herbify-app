@@ -38,7 +38,8 @@ class MainViewModel @Inject constructor(
                     predictedId,
                     captureId,
                     labelPredicted[i].name,
-                    labelPredicted[i].confident
+                    labelPredicted[i].confident,
+                    labelPredicted[i].imageUrl
             ).let {
                 mHerbsRepository.addPredicted(it)
             }

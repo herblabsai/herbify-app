@@ -3,22 +3,25 @@ package com.herblabs.herbifyapp.view.ui.identify
 import android.content.Context
 import android.content.SharedPreferences
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.firestore.FirebaseFirestore
 import com.herblabs.herbifyapp.R
 import com.herblabs.herbifyapp.data.source.firebase.model.Feedback
 import com.herblabs.herbifyapp.data.source.local.entity.CaptureEntity
+import com.herblabs.herbifyapp.data.source.local.entity.PredictedEntity
+import com.herblabs.herbifyapp.data.source.remote.response.Data
 import com.herblabs.herbifyapp.data.source.remote.response.HerbsResponse
 import com.herblabs.herbifyapp.databinding.ActivityIdentifyBinding
 import com.herblabs.herbifyapp.view.adapter.IdentifyAdapter
 import com.herblabs.herbifyapp.view.ui.signin.SignInActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.*
 
 @AndroidEntryPoint
 class IdentifyActivity : AppCompatActivity() {
@@ -30,7 +33,7 @@ class IdentifyActivity : AppCompatActivity() {
     private val firebaseFirestore = FirebaseFirestore.getInstance()
 
     companion object {
-        const val TAG = "IdentifyActivity"
+        const val TAG = "IdentifyActivity!!"
         const val EXTRA_CAPTURE = "extra_capture"
     }
 
@@ -44,50 +47,62 @@ class IdentifyActivity : AppCompatActivity() {
 
         val captureEntity = intent.getParcelableExtra<CaptureEntity>(EXTRA_CAPTURE)
         Log.d(TAG,"$captureEntity")
+
+        var identify = HerbsResponse()
         if (captureEntity != null){
             binding.imgResult.setImageURI(Uri.parse(captureEntity.imageUri))
-            viewModel.getCaptureWithPredicted(captureEntity.captureId).observe(this, {
-                if (it != null ){
-                    Log.d(TAG,"${it.mCapture}")
-                    Log.d(TAG,"${it.mCapture.captureId}")
-                    Log.d(TAG,"${it.mCapture.imageUri}")
-                    Log.d(TAG,"${it.mPredicted}")
+            viewModel.getPredictedByCaptureId(captureEntity.captureId).observe(this, { listPredicted ->
+                if (listPredicted != null){
+                    setupAdapter(listPredicted)
+
+                    GlobalScope.launch(Dispatchers.Main) {
+                        val listData = ArrayList<Data>()
+                        withContext(Dispatchers.Main) {
+                            listPredicted.forEach {
+                                val data = Data(it.imageUrl, it.name, it.confident)
+                                listData.add(data)
+                            }
+                        }
+                        identify = HerbsResponse(listData)
+
+                    }
 
                 }
             })
-
-        }
-
-        val identify = intent.getParcelableExtra<HerbsResponse>("identify")
-        if(identify != null){
-            Log.d("Result", "onCreate: $identify")
-            val identifyAdapter = IdentifyAdapter(identify.data)
-            with(binding.rvResultIdentify){
-                layoutManager = LinearLayoutManager(this@IdentifyActivity)
-                adapter = identifyAdapter
-            }
         }
 
         binding.btnFeedback.setOnClickListener {
             val singleItems = arrayOf("Hasil kurang sesuai", "Kamera jelek")
             val checkedItem = 0
 
-            MaterialAlertDialogBuilder(this, R.style.ThemeOverlay_MaterialComponents_MaterialAlertDialog_Centered)
-                .setTitle(resources.getString(R.string.title_feedback))
-                .setPositiveButton(resources.getString(R.string.ok)){ _, _ ->
-                    addFeedbackToFirestore(feedback)
-                }
-                .setSingleChoiceItems(singleItems, checkedItem){ _, which ->
-                    feedback = Feedback("", email!!, singleItems[which], identify!!.data)
-                }
-                .setCancelable(true)
-                .show()
+            if (identify.data.isNotEmpty()){
+                MaterialAlertDialogBuilder(this, R.style.ThemeOverlay_MaterialComponents_MaterialAlertDialog_Centered)
+                    .setTitle(resources.getString(R.string.title_feedback))
+                    .setPositiveButton(resources.getString(R.string.ok)){ _, _ ->
+                        addFeedbackToFirestore(feedback)
+                    }
+                    .setSingleChoiceItems(singleItems, checkedItem){ _, which ->
+
+                        feedback = Feedback("", email!!, singleItems[which], identify.data)
+                    }
+                    .setCancelable(true)
+                    .show()
+            }
+
         }
 
         binding.toolbar.setNavigationOnClickListener {
             onBackPressed()
         }
 
+    }
+
+    private fun setupAdapter(list: List<PredictedEntity>?) {
+        val identifyAdapter = IdentifyAdapter(list as List<PredictedEntity>)
+        with(binding.rvResultIdentify){
+            layoutManager = LinearLayoutManager(this@IdentifyActivity)
+            adapter = identifyAdapter
+        }
     }
 
     private fun addFeedbackToFirestore(feedback: Feedback) {
