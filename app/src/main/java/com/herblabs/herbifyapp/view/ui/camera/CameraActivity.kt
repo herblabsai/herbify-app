@@ -131,7 +131,7 @@ class CameraActivity : AppCompatActivity() {
 //                        progressDialog.dismiss()
                         loadingDialog.dismissDialog()
                         Log.e(TAG, "onUploadResult: ${result.message}")
-                        Toast.makeText(this@CameraActivity, "Error Fetching data", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this@CameraActivity, "Error Mengambil data", Toast.LENGTH_LONG).show()
                     }
                     else -> {
 //                        progressDialog.dismiss()

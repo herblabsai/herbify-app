@@ -73,7 +73,11 @@ class FirestoreDataStore @Inject constructor(
             firestore.collection(PATH_COLLECTION_HERBS).whereEqualTo("name", name).get()
                 .addOnCompleteListener {
                     val herbsList = it.result!!.toObjects(HerbsFirestore::class.java)
-                    result.value = Resource.success(herbsList)
+                    if (herbsList.size != 0){
+                        result.value = Resource.success(herbsList)
+                    } else {
+                        result.value = Resource.error("Error mengambil data", null)
+                    }
                 }
                 .addOnFailureListener { exception ->
                     result.value = Resource.error("$exception", null)

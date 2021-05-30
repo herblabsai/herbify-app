@@ -1,8 +1,11 @@
 package com.herblabs.herbifyapp.data.source.local.entity
 
+import android.os.Parcelable
 import androidx.annotation.NonNull
 import androidx.room.*
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 @Entity(
     tableName = "predicted",
     primaryKeys = ["predictedId", "captureId"],
@@ -16,7 +19,6 @@ import androidx.room.*
         Index(value = ["captureId"])
     ]
 )
-
 data class PredictedEntity (
     @NonNull
     @ColumnInfo(name = "predictedId")
@@ -37,4 +39,4 @@ data class PredictedEntity (
     @NonNull
     @ColumnInfo(name = "imageUrl")
     val imageUrl: String = "",
-)
+) : Parcelable

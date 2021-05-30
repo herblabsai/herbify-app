@@ -1,5 +1,6 @@
 package com.herblabs.herbifyapp.view.adapter
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -7,9 +8,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.herblabs.herbifyapp.R
 import com.herblabs.herbifyapp.data.source.local.entity.PredictedEntity
-import com.herblabs.herbifyapp.data.source.remote.response.Data
-import com.herblabs.herbifyapp.data.source.remote.response.HerbsResponse
 import com.herblabs.herbifyapp.databinding.ItemIdentifyBinding
+import com.herblabs.herbifyapp.view.ui.detail.herb.DetailHerbActivity
 import kotlin.math.roundToInt
 
 class IdentifyAdapter(var data: List<PredictedEntity>): RecyclerView.Adapter<IdentifyAdapter.IdentifyViewHolder>() {
@@ -28,10 +28,10 @@ class IdentifyAdapter(var data: List<PredictedEntity>): RecyclerView.Adapter<Ide
                 .into(binding.imageView)
             itemView.setOnClickListener {
                 // TODO : GOTO HERBS DETAIL
-//                Intent(itemView.context, DetailRecipeActivity::class.java).apply{
-//                    this.putExtra(DetailRecipeActivity.EXTRA_RECIPE, recipe)
-//                    itemView.context.startActivity(this)
-//                }
+                Intent(itemView.context, DetailHerbActivity::class.java).apply{
+                    this.putExtra(DetailHerbActivity.EXTRA_PREDICTED, response)
+                    itemView.context.startActivity(this)
+                }
 
             }
         }
