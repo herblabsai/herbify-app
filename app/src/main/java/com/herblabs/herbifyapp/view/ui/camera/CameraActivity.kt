@@ -22,6 +22,7 @@ import androidx.core.content.ContextCompat
 import com.herblabs.herbifyapp.R
 import com.herblabs.herbifyapp.data.source.local.entity.CaptureEntity
 import com.herblabs.herbifyapp.databinding.ActivityCameraBinding
+import com.herblabs.herbifyapp.utils.LoadingDialog
 import com.herblabs.herbifyapp.view.ui.main.MainActivity
 import com.herblabs.herbifyapp.vo.StatusMessage
 import dagger.hilt.android.AndroidEntryPoint
@@ -39,7 +40,8 @@ class CameraActivity : AppCompatActivity() {
 
     private lateinit var outputDirectory: File
     private lateinit var cameraExecutor: ExecutorService
-    private lateinit var progressDialog: AlertDialog
+//    private lateinit var progressDialog: AlertDialog
+    private lateinit var loadingDialog: LoadingDialog
     private lateinit var savedUri: Uri
     private val viewModel : CameraViewModel by viewModels()
 
@@ -69,7 +71,8 @@ class CameraActivity : AppCompatActivity() {
 
         cameraExecutor = Executors.newSingleThreadExecutor()
 
-        progressDialog = getDialogProgressBar().create()
+//        progressDialog = getDialogProgressBar().create()
+        loadingDialog = LoadingDialog(this)
 
         binding.back.setOnClickListener { onBackPressed() }
     }
@@ -109,9 +112,13 @@ class CameraActivity : AppCompatActivity() {
         viewModel.uploadPredict(photoFile).observe(this@CameraActivity, { result ->
             if (result!=null){
                 when(result.status){
-                    StatusMessage.LOADING -> progressDialog.show()
+                    StatusMessage.LOADING -> {
+//                        progressDialog.show()
+                        loadingDialog.startLoadingDialog()
+                    }
                     StatusMessage.SUCCESS ->{
-                        progressDialog.dismiss()
+//                        progressDialog.dismiss()
+                        loadingDialog.dismissDialog()
                         addCaptureToDB() //add Image Capture to DB
                         Log.d(TAG, "onUploadResult :${result.data}")
                         Intent().apply{
@@ -121,12 +128,14 @@ class CameraActivity : AppCompatActivity() {
                         }
                     }
                     StatusMessage.ERROR -> {
-                        progressDialog.dismiss()
+//                        progressDialog.dismiss()
+                        loadingDialog.dismissDialog()
                         Log.e(TAG, "onUploadResult: ${result.message}")
                         Toast.makeText(this@CameraActivity, "Error Fetching data", Toast.LENGTH_LONG).show()
                     }
                     else -> {
-                        progressDialog.dismiss()
+//                        progressDialog.dismiss()
+                        loadingDialog.dismissDialog()
                         Toast.makeText(this@CameraActivity, "Data tidak ditemukan", Toast.LENGTH_LONG).show()
                     }
                 }

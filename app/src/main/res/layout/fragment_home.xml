@@ -66,6 +66,7 @@
                 android:layout_height="match_parent"
                 android:layout_below="@id/top_recipes"
                 android:layout_marginTop="16dp"
+                android:indeterminateDrawable="@drawable/progress_bg"
                 android:visibility="gone"/>
 
             <TextView
@@ -94,6 +95,7 @@
                 android:layout_height="match_parent"
                 android:layout_below="@id/herbs"
                 android:layout_marginTop="16dp"
+                android:indeterminateDrawable="@drawable/progress_bg"
                 android:visibility="gone"/>
         </RelativeLayout>
     </androidx.core.widget.NestedScrollView>

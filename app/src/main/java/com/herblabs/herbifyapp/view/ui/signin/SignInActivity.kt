@@ -82,6 +82,7 @@ class SignInActivity : AppCompatActivity() {
             if (task.isSuccessful) {
                 val editor = preference.edit()
                 editor.putString(EXTRA_USERNAME, account.displayName.toString())
+                editor.putString(EXTRA_EMAIL, account.email.toString())
                 editor.apply()
 
                 val intent = Intent(this, MainActivity::class.java)
@@ -107,6 +108,7 @@ class SignInActivity : AppCompatActivity() {
     companion object{
         const val SIGN_IN_PREF = "sign_in_pref"
         const val EXTRA_USERNAME = "exrta_username"
+        const val EXTRA_EMAIL = "exrta_email"
         private const val TAG = "sign in activity"
     }
 }
