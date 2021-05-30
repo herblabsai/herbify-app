@@ -7,6 +7,8 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Data(
+    @SerializedName("imageUrl")
+    val imageUrl: String,
     @SerializedName("name")
     val name: String = "",
     @SerializedName("confident")

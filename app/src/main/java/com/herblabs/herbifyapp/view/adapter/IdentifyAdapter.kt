@@ -3,6 +3,9 @@ package com.herblabs.herbifyapp.view.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.herblabs.herbifyapp.R
 import com.herblabs.herbifyapp.data.source.local.entity.PredictedEntity
 import com.herblabs.herbifyapp.data.source.remote.response.Data
 import com.herblabs.herbifyapp.data.source.remote.response.HerbsResponse
@@ -16,12 +19,13 @@ class IdentifyAdapter(var data: List<Data>): RecyclerView.Adapter<IdentifyAdapte
             val confident = response.confident.roundToInt()
             val toString = "$confident%"
             binding.tvConfident.text = toString
-//            Glide.with(itemView.context)
-//                .load(predicted.imageUrl)
-//                .apply(
-//                    RequestOptions.placeholderOf(R.drawable.ic_loading)
-//                        .error(R.drawable.ic_error))
-//                .into(binding.imageHerb)
+            val imageUrl = response.imageUrl.replace(" ", "%20")
+            Glide.with(itemView.context)
+                .load(response.imageUrl)
+                .apply(
+                    RequestOptions.placeholderOf(R.drawable.ic_loading)
+                        .error(R.drawable.ic_error))
+                .into(binding.imageView)
             itemView.setOnClickListener {
                 // TODO : GOTO HERBS DETAIL
 //                Intent(itemView.context, DetailRecipeActivity::class.java).apply{
