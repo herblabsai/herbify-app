@@ -5,5 +5,5 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class ListIdRecipe(
-    val id: String = ""
+    val id: Int = 0
 ): Parcelable

@@ -1,6 +1,8 @@
 package com.herblabs.herbifyapp.data
 
+import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.herblabs.herbifyapp.data.source.firebase.FirestoreDataStore
@@ -13,6 +15,7 @@ import com.herblabs.herbifyapp.data.source.local.entity.PredictedEntity
 import com.herblabs.herbifyapp.data.source.remote.RemoteDataSource
 import com.herblabs.herbifyapp.data.source.remote.response.HerbsResponse
 import com.herblabs.herbifyapp.utils.AppExecutors
+import com.herblabs.herbifyapp.view.ui.detail.herb.DetailHerbViewModel
 import com.herblabs.herbifyapp.vo.Resource
 import okhttp3.MultipartBody
 import javax.inject.Inject
@@ -82,7 +85,11 @@ class HerbsRepository @Inject constructor(
         return firestoreDataStore.getRecipeByDocumentID(id)
     }
 
+    override fun getRecipeByListID(listID: List<Int>): MutableLiveData<Resource<List<Recipe>>> {
+        Log.d("DetailViewModel", "SUCCESS : $listID")
 
+        return firestoreDataStore.getRecipesByListID(listID)
+    }
 
 
 }

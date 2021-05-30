@@ -1,6 +1,7 @@
 package com.herblabs.herbifyapp.data
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.paging.PagedList
 import com.herblabs.herbifyapp.data.source.firebase.model.HerbsFirestore
 import com.herblabs.herbifyapp.data.source.firebase.model.Recipe
@@ -46,4 +47,6 @@ interface HerbsDataSource {
     fun getHerbByName(name: String):  LiveData<Resource<List<HerbsFirestore>>>
 
     fun getRecipeByDocumentID(id: String):  LiveData<List<Recipe>>
+
+    fun getRecipeByListID(listID: List<Int>):  MutableLiveData<Resource<List<Recipe>>>
 }

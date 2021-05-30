@@ -4,47 +4,29 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FirebaseFirestore
+import com.herblabs.herbifyapp.data.HerbsRepository
+import com.herblabs.herbifyapp.data.source.firebase.model.ListIdRecipe
 import com.herblabs.herbifyapp.data.source.firebase.model.Recipe
 import com.herblabs.herbifyapp.view.ui.main.MainActivity
+import com.herblabs.herbifyapp.vo.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
+import javax.inject.Inject
 
-class DetailHerbViewModel : ViewModel() {
-    private val TAG: String = "DetailViewModel"
-    private val _recipe = MutableLiveData<List<Recipe>>()
+@HiltViewModel
+class DetailHerbViewModel @Inject constructor(
+    private val repository: HerbsRepository
+): ViewModel() {
 
-    val recipe : LiveData<List<Recipe>>
-        get() = _recipe
+    val TAG: String = "DetailViewModel"
 
-    private var job = Job()
-    private val uiScope = CoroutineScope(job + Dispatchers.Main)
 
-    fun getRecipes(db: FirebaseFirestore, id: String){
-        uiScope.launch {
-            try {
-                db.collection(MainActivity.PATH_COLLECTION_RECIPES)
-                    .whereEqualTo(FieldPath.documentId(), id)
-                    .get()
-                    .addOnCompleteListener {
-                        val recipesList = it.result!!.toObjects(Recipe::class.java)
-                        _recipe.postValue(recipesList)
-                    }
-                    .addOnFailureListener { exception ->
-                        Log.d("MainActivity", "Error getting documents : $exception")
-                    }
-            }catch (t: Throwable){
-                Log.d(TAG, "getRecipes: $t")
-            }
-        }
+    fun getRecipe(listID: List<Int>): LiveData<Resource<List<Recipe>>> {
+        return repository.getRecipeByListID(listID)
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        job.cancel()
-    }
+
 }

@@ -103,4 +103,24 @@ class FirestoreDataStore @Inject constructor(
         return result
 
     }
+
+    fun getRecipesByListID(listID: List<Int>): MutableLiveData<Resource<List<Recipe>>> {
+        val result = MutableLiveData<Resource<List<Recipe>>>()
+        try {
+            result.value = Resource.loading(null)
+            firestore.collection(PATH_COLLECTION_RECIPES).whereIn("_id", listID).get()
+                .addOnCompleteListener {
+                    val recipeList = it.result!!.toObjects(Recipe::class.java)
+                    result.value = Resource.success(recipeList)
+                    Log.e(TAG, "Success : $recipeList")
+                }
+                .addOnFailureListener { exception ->
+                    result.value = Resource.error("$exception", null)
+                    Log.e(TAG, "Error getting documents : $exception")
+                }
+        } catch (e : Exception){
+            Log.e(TAG, e.printStackTrace().toString())
+        }
+        return result
+    }
 }
