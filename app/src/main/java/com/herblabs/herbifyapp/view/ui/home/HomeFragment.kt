@@ -61,29 +61,6 @@ class HomeFragment : Fragment() {
                     R.id.item_search -> {
 //                        val intent = Intent(context, SearchActivity::class.java)
 //                        startActivity(intent)
-                        // TODO : TEST DATA REPOSITORY
-                        /**
-                        homeViewModel.getHerbsByName("Meniran").observe(viewLifecycleOwner, { result ->
-                            if (result!=null){
-                                when(result.status){
-                                    StatusMessage.LOADING -> {
-                                        Log.d(TAG, "Loading....")
-                                    }
-                                    StatusMessage.SUCCESS ->{
-                                        Log.d(TAG, "Loading.... Done")
-                                        result.data?.forEach { herbs ->
-                                            Log.d(TAG, "Result : $herbs")
-                                        }
-                                    }
-                                    StatusMessage.ERROR -> {
-                                        Log.d(TAG, "Loading.... Done , Error")
-                                    }
-                                    else -> { }
-                                }
-                            }
-
-                        })
-                        **/
                         Toast.makeText(requireActivity(), "Coming Soon !", Toast.LENGTH_SHORT).show()
                     }
                 }

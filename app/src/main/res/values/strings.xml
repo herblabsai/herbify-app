@@ -37,4 +37,6 @@
     <string name="loading">Tunggu Sebentar …</string>
     <string name="title_feedback">Apa yang salah ?</string>
     <string name="ok">Kirim</string>
+    <string name="settings">settings</string>
+    <string name="tidak_ada_riwayat">Tidak ada riwayat</string>
 </resources>
