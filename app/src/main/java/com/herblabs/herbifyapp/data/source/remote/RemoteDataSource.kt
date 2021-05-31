@@ -1,4 +1,4 @@
-package com.herblabs.herbifyapp.data.source.remote
+ package com.herblabs.herbifyapp.data.source.remote
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -33,7 +33,7 @@ class RemoteDataSource @Inject constructor(private val apiService: ApiService) {
                         val getList : List<Data> = listData
 
                         response.body()?.data?.forEach {
-                            if (it.confident > 0 ){
+                            if (it.confident > 20 ){
                                 Log.d(TAG, "STATUS SUCCESS 2: $it")
                                 listData.add(it)
                             }

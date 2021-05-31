@@ -69,10 +69,5 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    // TEST
-    fun getHerbsByName(name: String): LiveData<Resource<List<HerbsFirestore>>> {
-        return repository.getHerbByName(name)
-    }
-
 
 }

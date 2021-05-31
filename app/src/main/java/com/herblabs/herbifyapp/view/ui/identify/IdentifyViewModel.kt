@@ -13,10 +13,6 @@ class IdentifyViewModel @Inject constructor(
         private val repository: HerbsRepository
 ) : ViewModel() {
 
-    fun getCaptureWithPredicted(captureId : Int): LiveData<CaptureWithPredicted> {
-        return repository.getCaptureWithPredicted(captureId)
-    }
-
     fun getPredictedByCaptureId(captureId: Int): LiveData<List<PredictedEntity>> {
         return repository.getPredictedByCaptureId(captureId)
     }

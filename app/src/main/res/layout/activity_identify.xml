@@ -36,6 +36,7 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
+                app:menu="@menu/identify_menu"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/ThemeOverlay.MaterialComponents"
                 app:navigationIcon="@drawable/ic_back_button" />
@@ -89,14 +90,15 @@
                     android:textColor="@color/white"
                     android:textSize="18sp"
                     android:textAllCaps="false"
-                    android:layout_marginStart="35dp"
-                    android:layout_marginEnd="35dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
                     android:layout_marginTop="50dp"
                     android:layout_marginBottom="35dp"
                     app:layout_constraintVertical_bias="0.0"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

@@ -39,4 +39,5 @@
     <string name="ok">Kirim</string>
     <string name="settings">settings</string>
     <string name="tidak_ada_riwayat">Tidak ada riwayat</string>
+    <string name="delete">Delete</string>
 </resources>
