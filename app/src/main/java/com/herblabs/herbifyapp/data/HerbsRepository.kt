@@ -15,7 +15,6 @@ import com.herblabs.herbifyapp.data.source.local.entity.PredictedEntity
 import com.herblabs.herbifyapp.data.source.remote.RemoteDataSource
 import com.herblabs.herbifyapp.data.source.remote.response.HerbsResponse
 import com.herblabs.herbifyapp.utils.AppExecutors
-import com.herblabs.herbifyapp.view.ui.detail.herb.DetailHerbViewModel
 import com.herblabs.herbifyapp.vo.Resource
 import okhttp3.MultipartBody
 import javax.inject.Inject
@@ -93,6 +92,10 @@ class HerbsRepository @Inject constructor(
         Log.d("DetailViewModel", "SUCCESS : $listID")
 
         return firestoreDataStore.getRecipesByListID(listID)
+    }
+
+    override fun searchHerbs(keyword: String): MutableLiveData<Resource<List<HerbsFirestore>>> {
+        return firestoreDataStore.searchHerbs(keyword)
     }
 
 

@@ -72,9 +72,10 @@ class IdentifyActivity : AppCompatActivity() {
         }
 
         binding.btnFeedback.setOnClickListener {
-            val singleItems = arrayOf("Hasil kurang sesuai", "Kamera jelek")
+            val singleItems = arrayOf("Hasil kurang sesuai", "Internet lelet")
             val checkedItem = 0
 
+<<<<<<< Updated upstream
             if (identify.data.isNotEmpty()){
                 MaterialAlertDialogBuilder(this, R.style.ThemeOverlay_MaterialComponents_MaterialAlertDialog_Centered)
                     .setTitle(resources.getString(R.string.title_feedback))
@@ -89,6 +90,20 @@ class IdentifyActivity : AppCompatActivity() {
                     .show()
             }
 
+=======
+            MaterialAlertDialogBuilder(this, R.style.ThemeOverlay_MaterialComponents_MaterialAlertDialog_Centered)
+                .setTitle(resources.getString(R.string.title_feedback))
+                .setPositiveButton(resources.getString(R.string.ok)){ _, _ ->
+                    addFeedbackToFirestore(feedback)
+                }
+                .setSingleChoiceItems(singleItems, checkedItem){ _, which ->
+                    if (identify != null) {
+                        feedback = identify.imageUploaded?.let { img -> Feedback(img, email!!, singleItems[which], identify.data) }!!
+                    }
+                }
+                .setCancelable(true)
+                .show()
+>>>>>>> Stashed changes
         }
 
         binding.toolbar.setNavigationOnClickListener {

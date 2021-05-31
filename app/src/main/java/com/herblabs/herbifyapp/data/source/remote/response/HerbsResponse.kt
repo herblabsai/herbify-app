@@ -8,5 +8,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class HerbsResponse(
     @SerializedName("data")
-    val data: List<Data> = listOf()
+    val data: List<Data> = listOf(),
+    @SerializedName("imageUploaded")
+    val imageUploaded: String? = ""
 ) : Parcelable

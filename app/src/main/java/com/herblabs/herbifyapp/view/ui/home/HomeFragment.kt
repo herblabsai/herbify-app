@@ -1,5 +1,6 @@
 package com.herblabs.herbifyapp.view.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -16,6 +17,7 @@ import com.herblabs.herbifyapp.utils.HorizontalMarginItemDecoration
 import com.herblabs.herbifyapp.utils.VerticalMarginItemDecoration
 import com.herblabs.herbifyapp.view.adapter.HerbsAdapter
 import com.herblabs.herbifyapp.view.adapter.RecipesAdapter
+import com.herblabs.herbifyapp.view.ui.search.SearchActivity
 import com.herblabs.herbifyapp.vo.StatusMessage
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -59,9 +61,8 @@ class HomeFragment : Fragment() {
             setOnMenuItemClickListener {
                 when(it?.itemId){
                     R.id.item_search -> {
-//                        val intent = Intent(context, SearchActivity::class.java)
-//                        startActivity(intent)
-                        Toast.makeText(requireActivity(), "Coming Soon !", Toast.LENGTH_SHORT).show()
+                        val intent = Intent(context, SearchActivity::class.java)
+                        startActivity(intent)
                     }
                 }
                 true

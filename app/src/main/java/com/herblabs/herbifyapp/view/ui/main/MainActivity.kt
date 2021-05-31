@@ -108,7 +108,6 @@ class MainActivity : AppCompatActivity() {
             Log.d(TAG, "$captureEntity")
             viewModel.addPredicted(herbsResponse,captureEntity)
 
-            Toast.makeText(this@MainActivity, "Here we go !", Toast.LENGTH_LONG).show()
             Intent(this@MainActivity, IdentifyActivity::class.java).apply {
                 putExtra(IdentifyActivity.EXTRA_CAPTURE, captureEntity)
                 startActivity(this)

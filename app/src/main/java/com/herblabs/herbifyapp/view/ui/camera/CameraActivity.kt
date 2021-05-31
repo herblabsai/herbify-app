@@ -6,11 +6,8 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import android.widget.LinearLayout
-import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
@@ -40,7 +37,6 @@ class CameraActivity : AppCompatActivity() {
 
     private lateinit var outputDirectory: File
     private lateinit var cameraExecutor: ExecutorService
-//    private lateinit var progressDialog: AlertDialog
     private lateinit var loadingDialog: LoadingDialog
     private lateinit var savedUri: Uri
     private val viewModel : CameraViewModel by viewModels()
@@ -113,11 +109,9 @@ class CameraActivity : AppCompatActivity() {
             if (result!=null){
                 when(result.status){
                     StatusMessage.LOADING -> {
-//                        progressDialog.show()
                         loadingDialog.startLoadingDialog()
                     }
                     StatusMessage.SUCCESS ->{
-//                        progressDialog.dismiss()
                         loadingDialog.dismissDialog()
                         addCaptureToDB() //add Image Capture to DB
                         Log.d(TAG, "onUploadResult :${result.data}")
@@ -128,13 +122,11 @@ class CameraActivity : AppCompatActivity() {
                         }
                     }
                     StatusMessage.ERROR -> {
-//                        progressDialog.dismiss()
                         loadingDialog.dismissDialog()
                         Log.e(TAG, "onUploadResult: ${result.message}")
                         Toast.makeText(this@CameraActivity, "Error Mengambil data", Toast.LENGTH_LONG).show()
                     }
                     else -> {
-//                        progressDialog.dismiss()
                         loadingDialog.dismissDialog()
                         Toast.makeText(this@CameraActivity, "Data tidak ditemukan", Toast.LENGTH_LONG).show()
                     }
@@ -214,17 +206,4 @@ class CameraActivity : AppCompatActivity() {
         }, ContextCompat.getMainExecutor(this))
     }
 
-    private fun getDialogProgressBar(): AlertDialog.Builder {
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle("Loading...")
-        val progressBar = ProgressBar(this)
-        val lp = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-        )
-        progressBar.layoutParams = lp
-        builder.setView(progressBar)
-
-        return builder
-    }
 }

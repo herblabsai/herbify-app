@@ -38,13 +38,13 @@ class RemoteDataSource @Inject constructor(private val apiService: ApiService) {
                                 listData.add(it)
                             }
                         }
-                        predictedResponse.value = Resource.success( HerbsResponse(
+                        predictedResponse.value = Resource.success( HerbsResponse(data=
                             getList.let { data ->
                                 data.sortedByDescending { it.confident }
                                     .filterIndexed { index, _ ->
                                         (index <= 2 )
                                     }
-                            }
+                            }, imageUploaded = response.body()?.imageUploaded
                         ))
                     } else {
                         predictedResponse.value = Resource.empty( response.message(), null)

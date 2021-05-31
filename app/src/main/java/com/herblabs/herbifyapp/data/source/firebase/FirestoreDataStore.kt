@@ -127,4 +127,25 @@ class FirestoreDataStore @Inject constructor(
         }
         return result
     }
+
+    fun searchHerbs(keyword: String): MutableLiveData<Resource<List<HerbsFirestore>>>{
+        val result = MutableLiveData<Resource<List<HerbsFirestore>>>()
+        try{
+            result.value = Resource.loading(null)
+            firestore.collection(PATH_COLLECTION_HERBS).whereArrayContains("keyword", keyword)
+                .get()
+                .addOnCompleteListener {
+                    val herbsList = it.result!!.toObjects(HerbsFirestore::class.java)
+                    result.value = Resource.success(herbsList)
+                    Log.d(TAG, "Success: $herbsList")
+                }
+                .addOnFailureListener {
+                    result.value = Resource.error("$it", null)
+                    Log.e(TAG, "Error: $it")
+                }
+        }catch (e: Exception){
+            Log.e(TAG, e.printStackTrace().toString() )
+        }
+        return result
+    }
 }

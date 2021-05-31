@@ -19,7 +19,6 @@ class IdentifyAdapter(var data: List<PredictedEntity>): RecyclerView.Adapter<Ide
             val confident = response.confident.roundToInt()
             val toString = "$confident%"
             binding.tvConfident.text = toString
-            val imageUrl = response.imageUrl.replace(" ", "%20")
             Glide.with(itemView.context)
                 .load(response.imageUrl)
                 .apply(
