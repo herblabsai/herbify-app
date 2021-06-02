@@ -29,6 +29,9 @@ class HomeFragment : Fragment() {
     private lateinit var herbsAdapter: HerbsAdapter
     private val homeViewModel: HomeViewModel by viewModels()
 
+    private var state = false
+    private var state2 = false
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -46,7 +49,6 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupToolbar()
-
         getRecipes()
         getAllHerbs()
     }
@@ -56,7 +58,8 @@ class HomeFragment : Fragment() {
             if(it != null){
                 when(it.status){
                     StatusMessage.LOADING -> {
-                        showProgressBarHerbs(true)
+                        state = true
+                        showShimmeringLoading(state,state2)
                     }
                     StatusMessage.SUCCESS -> {
                         binding.rvHerbs.apply {
@@ -65,15 +68,18 @@ class HomeFragment : Fragment() {
                             this.layoutManager = LinearLayoutManager(requireActivity())
                             addItemDecoration(VerticalMarginItemDecoration(16))
                             herbsAdapter.notifyDataSetChanged()
-                            showProgressBarHerbs(false)
+                            state = false
+                            showShimmeringLoading(state,state2)
                         }
                     }
                     StatusMessage.ERROR -> {
-                        showProgressBarHerbs(false)
+                        state = false
+                        showShimmeringLoading(state,state2)
                         Log.e(TAG, "getAllHerbs: ${it.message}")
                     }
                     StatusMessage.EMPTY -> {
-                        showProgressBarHerbs(false)
+                        state = false
+                        showShimmeringLoading(state,state2)
                         Toast.makeText(requireActivity(), "Data Kosong", Toast.LENGTH_SHORT).show()
                     }
                 }
@@ -86,7 +92,8 @@ class HomeFragment : Fragment() {
             if(it != null){
                 when(it.status){
                     StatusMessage.LOADING -> {
-                        showProgressBarRecipe(true)
+                        state2 = true
+                        showShimmeringLoading(state,state2)
                     }
                     StatusMessage.SUCCESS -> {
                         binding.rvTopRecipe.apply {
@@ -95,15 +102,18 @@ class HomeFragment : Fragment() {
                             this.layoutManager = LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
                             addItemDecoration(HorizontalMarginItemDecoration(24))
                             recipesAdapter.notifyDataSetChanged()
-                            showProgressBarRecipe(false)
+                            state2 = false
+                            showShimmeringLoading(state,state2)
                         }
                     }
                     StatusMessage.ERROR -> {
-                        showProgressBarRecipe(false)
+                        state2 = false
+                        showShimmeringLoading(state,state2)
                         Log.e(TAG, "getRecipes: ${it.message}")
                     }
                     StatusMessage.EMPTY -> {
-                        showProgressBarRecipe(false)
+                        state2 = false
+                        showShimmeringLoading(state,state2)
                         Toast.makeText(requireActivity(), "Data Kosong", Toast.LENGTH_SHORT).show()
                     }
                 }
@@ -125,19 +135,13 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun showProgressBarRecipe(state: Boolean){
-        if(state){
-            binding.progressBarRecipe.visibility = View.VISIBLE
-        }else{
-            binding.progressBarRecipe.visibility = View.GONE
-        }
-    }
-
-    private fun showProgressBarHerbs(state: Boolean){
-        if(state){
-            binding.progressBarHerbs.visibility = View.VISIBLE
-        }else{
-            binding.progressBarHerbs.visibility = View.GONE
+    private fun showShimmeringLoading(state: Boolean, state2: Boolean){
+        if(state && state2){
+            binding.loadingShimmer.visibility = View.VISIBLE
+            binding.dataList.visibility = View.GONE
+        }else if (!state && !state2){
+            binding.loadingShimmer.visibility = View.GONE
+            binding.dataList.visibility = View.VISIBLE
         }
     }
 
