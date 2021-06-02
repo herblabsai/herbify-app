@@ -5,7 +5,7 @@ import androidx.room.Room
 import com.google.firebase.firestore.FirebaseFirestore
 import com.herblabs.herbifyapp.data.HerbsDataSource
 import com.herblabs.herbifyapp.data.HerbsRepository
-import com.herblabs.herbifyapp.data.source.firebase.FirestoreDataStore
+import com.herblabs.herbifyapp.data.source.firebase.FirebaseDataSource
 import com.herblabs.herbifyapp.data.source.local.LocalDataSource
 import com.herblabs.herbifyapp.data.source.local.db.HerbifyDB
 import com.herblabs.herbifyapp.data.source.local.db.HerbifyDao
@@ -16,12 +16,7 @@ import com.herblabs.herbifyapp.utils.AppExecutors
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityComponent
 import dagger.hilt.components.SingletonComponent
-import dagger.hilt.android.internal.managers.ApplicationComponentManager
-import java.util.concurrent.Executor
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.Executors
 import javax.inject.Singleton
 
 @Module
@@ -79,8 +74,8 @@ object DataModule {
     @Singleton
     fun provideFirestoreDataStore(
         firebaseFirestore: FirebaseFirestore
-    ) : FirestoreDataStore {
-        return FirestoreDataStore(firebaseFirestore)
+    ) : FirebaseDataSource {
+        return FirebaseDataSource(firebaseFirestore)
     }
 
     @Provides
@@ -92,10 +87,10 @@ object DataModule {
     fun provideHerbsRepository(
         remoteDataSource: RemoteDataSource,
         localDataSource: LocalDataSource,
-        firestoreDataStore: FirestoreDataStore,
+        firebaseDataSource: FirebaseDataSource,
         appExecutors: AppExecutors
     ) : HerbsDataSource {
-        return HerbsRepository(remoteDataSource, localDataSource, firestoreDataStore, appExecutors)
+        return HerbsRepository(remoteDataSource, localDataSource, firebaseDataSource, appExecutors)
     }
 
 

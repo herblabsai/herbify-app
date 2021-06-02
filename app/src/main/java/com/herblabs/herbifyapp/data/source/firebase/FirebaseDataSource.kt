@@ -11,12 +11,12 @@ import com.herblabs.herbifyapp.vo.Resource
 import java.lang.Exception
 import javax.inject.Inject
 
-class FirestoreDataStore @Inject constructor(
+class FirebaseDataSource @Inject constructor(
     private val firestore: FirebaseFirestore
 ) {
 
     companion object{
-        const val TAG = "FirestoreDataStore"
+        const val TAG = "FirebaseDataSource"
         const val PATH_COLLECTION_HERBS = "herbs"
         const val PATH_COLLECTION_RECIPES = "recipes"
     }

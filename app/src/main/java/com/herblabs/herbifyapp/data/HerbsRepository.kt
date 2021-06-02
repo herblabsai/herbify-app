@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import com.herblabs.herbifyapp.data.source.firebase.FirestoreDataStore
+import com.herblabs.herbifyapp.data.source.firebase.FirebaseDataSource
 import com.herblabs.herbifyapp.data.source.firebase.model.HerbsFirestore
 import com.herblabs.herbifyapp.data.source.firebase.model.Recipe
 import com.herblabs.herbifyapp.data.source.local.LocalDataSource
@@ -22,7 +22,7 @@ import javax.inject.Inject
 class HerbsRepository @Inject constructor(
     private val remoteDataSource: RemoteDataSource,
     private val localDataSource: LocalDataSource,
-    private val firestoreDataStore: FirestoreDataStore,
+    private val firebaseDataSource: FirebaseDataSource,
     private val appExecutors: AppExecutors
 ): HerbsDataSource{
     /**
@@ -73,29 +73,29 @@ class HerbsRepository @Inject constructor(
 
 
     override fun getHerbs(): LiveData<Resource<List<HerbsFirestore>>> {
-        return firestoreDataStore.getHerbs()
+        return firebaseDataSource.getHerbs()
     }
 
     override fun getRecipes(): LiveData<Resource<List<Recipe>>> {
-        return firestoreDataStore.getRecipes()
+        return firebaseDataSource.getRecipes()
     }
 
     override fun getHerbByName(name: String): LiveData<Resource<List<HerbsFirestore>>> {
-         return firestoreDataStore.getHerbsByName(name)
+         return firebaseDataSource.getHerbsByName(name)
     }
 
     override fun getRecipeByDocumentID(id: String): LiveData<List<Recipe>> {
-        return firestoreDataStore.getRecipeByDocumentID(id)
+        return firebaseDataSource.getRecipeByDocumentID(id)
     }
 
     override fun getRecipeByListID(listID: List<Int>): MutableLiveData<Resource<List<Recipe>>> {
         Log.d("DetailViewModel", "SUCCESS : $listID")
 
-        return firestoreDataStore.getRecipesByListID(listID)
+        return firebaseDataSource.getRecipesByListID(listID)
     }
 
     override fun searchHerbs(keyword: String): MutableLiveData<Resource<List<HerbsFirestore>>> {
-        return firestoreDataStore.searchHerbs(keyword)
+        return firebaseDataSource.searchHerbs(keyword)
     }
 
 
