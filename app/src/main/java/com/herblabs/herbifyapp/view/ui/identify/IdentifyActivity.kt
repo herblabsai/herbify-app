@@ -72,7 +72,7 @@ class IdentifyActivity : AppCompatActivity() {
         }
 
         binding.btnFeedback.setOnClickListener {
-            val singleItems = arrayOf("Hasil kurang sesuai", "Internet lelet")
+            val singleItems = arrayOf("Hasil kurang sesuai", "Data tidak cocok")
             val checkedItem = 0
 
             if (identify.data.isNotEmpty()){
@@ -82,24 +82,11 @@ class IdentifyActivity : AppCompatActivity() {
                         addFeedbackToFirestore(feedback)
                     }
                     .setSingleChoiceItems(singleItems, checkedItem){ _, which ->
-
-                        feedback = Feedback("", email!!, singleItems[which], identify.data)
+                        feedback = Feedback(identify.imageUploaded!!, email!!, singleItems[which], identify.data)
                     }
                     .setCancelable(true)
                     .show()
             }
-
-
-            MaterialAlertDialogBuilder(this, R.style.ThemeOverlay_MaterialComponents_MaterialAlertDialog_Centered)
-                .setTitle(resources.getString(R.string.title_feedback))
-                .setPositiveButton(resources.getString(R.string.ok)){ _, _ ->
-                    addFeedbackToFirestore(feedback)
-                }
-                .setSingleChoiceItems(singleItems, checkedItem){ _, which ->
-                    feedback = identify.imageUploaded?.let { img -> Feedback(img, email!!, singleItems[which], identify.data) }!!
-                }
-                .setCancelable(true)
-                .show()
 
         }
 
