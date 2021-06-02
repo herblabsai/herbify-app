@@ -18,5 +18,5 @@ class HomeViewModel @Inject constructor(
         repository.getHerbs()
 
     fun getRecipes(): LiveData<Resource<List<Recipe>>> =
-        repository.getRecipes()
+        repository.getRecipesWherePopular()
 }

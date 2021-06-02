@@ -76,8 +76,8 @@ class HerbsRepository @Inject constructor(
         return firebaseDataSource.getHerbs()
     }
 
-    override fun getRecipes(): LiveData<Resource<List<Recipe>>> {
-        return firebaseDataSource.getRecipes()
+    override fun getRecipesWherePopular(): LiveData<Resource<List<Recipe>>> {
+        return firebaseDataSource.getRecipesWherePopular()
     }
 
     override fun getHerbByName(name: String): LiveData<Resource<List<HerbsFirestore>>> {

@@ -10,6 +10,7 @@ import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.herblabs.herbifyapp.data.source.firebase.model.HerbsFirestore
 import com.herblabs.herbifyapp.databinding.ActivitySearchBinding
+import com.herblabs.herbifyapp.utils.VerticalMarginItemDecoration
 import com.herblabs.herbifyapp.view.adapter.HerbsAdapter
 import com.herblabs.herbifyapp.view.ui.main.MainActivity
 import com.herblabs.herbifyapp.vo.StatusMessage
@@ -45,6 +46,7 @@ class SearchActivity : AppCompatActivity() {
                                     searchListAdapter = HerbsAdapter(it.data!!)
                                     this.adapter = searchListAdapter
                                     this.layoutManager = LinearLayoutManager(context)
+                                    addItemDecoration(VerticalMarginItemDecoration(16))
                                     searchListAdapter.notifyDataSetChanged()
                                 }
                             }

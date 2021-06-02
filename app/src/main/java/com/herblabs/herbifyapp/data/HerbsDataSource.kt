@@ -44,7 +44,7 @@ interface HerbsDataSource {
 
     fun getHerbs():  LiveData<Resource<List<HerbsFirestore>>>
 
-    fun getRecipes():  LiveData<Resource<List<Recipe>>>
+    fun getRecipesWherePopular():  LiveData<Resource<List<Recipe>>>
 
     fun getHerbByName(name: String):  LiveData<Resource<List<HerbsFirestore>>>
 

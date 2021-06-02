@@ -12,16 +12,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.35" />
+        app:layout_constraintGuide_percent="0.7" />
 
     <ImageView
         android:id="@+id/img_logo"
         android:layout_width="220dp"
         android:layout_height="65dp"
-        android:layout_marginTop="100dp"
         android:contentDescription="@string/app_name"
         android:src="@drawable/ic_logo_herbify"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -35,10 +36,12 @@
         android:textStyle="bold"
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/img_logo" />
 
     <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/bg_content"
@@ -53,12 +56,12 @@
             android:layout_width="300dp"
             android:layout_height="60dp"
             android:backgroundTint="@color/teal_100"
-            android:text="@string/sign_in"
-            android:textStyle="bold"
-            android:textSize="24sp"
-            android:textAllCaps="false"
+            android:drawableLeft="@drawable/ic_google"
             android:fontFamily="@font/source_sans_pro"
+            android:text="@string/sign_in"
+            android:textAllCaps="false"
             android:textColor="@color/black"
-            android:drawableLeft="@drawable/ic_google"/>
+            android:textSize="24sp"
+            android:textStyle="bold" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

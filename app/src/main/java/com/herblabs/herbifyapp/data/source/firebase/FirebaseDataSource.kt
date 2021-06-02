@@ -43,12 +43,12 @@ class FirebaseDataSource @Inject constructor(
         return result
     }
 
-    fun getRecipes(): LiveData<Resource<List<Recipe>>> {
+    fun getRecipesWherePopular(): LiveData<Resource<List<Recipe>>> {
         val result = MutableLiveData<Resource<List<Recipe>>>()
 
         try {
             result.value = Resource.loading(null)
-            firestore.collection(PATH_COLLECTION_RECIPES).get()
+            firestore.collection(PATH_COLLECTION_RECIPES).whereEqualTo("isPopular", true).get()
                 .addOnCompleteListener {
                     val recipeList = it.result!!.toObjects(Recipe::class.java)
                     result.value = Resource.success(recipeList)
