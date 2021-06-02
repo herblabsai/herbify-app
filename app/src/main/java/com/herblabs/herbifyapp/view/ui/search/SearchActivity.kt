@@ -14,6 +14,8 @@ import com.herblabs.herbifyapp.view.adapter.HerbsAdapter
 import com.herblabs.herbifyapp.view.ui.main.MainActivity
 import com.herblabs.herbifyapp.vo.StatusMessage
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
+import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
 class SearchActivity : AppCompatActivity() {
@@ -35,7 +37,7 @@ class SearchActivity : AppCompatActivity() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val query = binding.searchView.text.toString()
-                viewModel.searchHerbs(query).observe(this@SearchActivity, {
+                viewModel.searchHerbs(query.lowercase(Locale.getDefault())).observe(this@SearchActivity, {
                     if(it != null){
                         when(it.status){
                             StatusMessage.SUCCESS -> {

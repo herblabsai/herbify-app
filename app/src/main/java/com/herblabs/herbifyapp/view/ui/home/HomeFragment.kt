@@ -10,7 +10,6 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.firebase.firestore.FirebaseFirestore
 import com.herblabs.herbifyapp.R
 import com.herblabs.herbifyapp.databinding.FragmentHomeBinding
 import com.herblabs.herbifyapp.utils.HorizontalMarginItemDecoration
@@ -43,17 +42,73 @@ class HomeFragment : Fragment() {
         const val TAG = "HomeFragment"
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         setupToolbar()
 
-        showProgressBarRecipe(true)
-        showProgressBarHerbs(true)
+        getRecipes()
+        getAllHerbs()
+    }
 
-        val db = FirebaseFirestore.getInstance()
-        getRecipes(db)
-        getAllHerbs(db)
+    private fun getAllHerbs() {
+        homeViewModel.getAllHerbs().observe(viewLifecycleOwner, {
+            if(it != null){
+                when(it.status){
+                    StatusMessage.LOADING -> {
+                        showProgressBarHerbs(true)
+                    }
+                    StatusMessage.SUCCESS -> {
+                        binding.rvHerbs.apply {
+                            herbsAdapter = HerbsAdapter(it.data!!)
+                            this.adapter = herbsAdapter
+                            this.layoutManager = LinearLayoutManager(requireActivity())
+                            addItemDecoration(VerticalMarginItemDecoration(16))
+                            herbsAdapter.notifyDataSetChanged()
+                            showProgressBarHerbs(false)
+                        }
+                    }
+                    StatusMessage.ERROR -> {
+                        showProgressBarHerbs(false)
+                        Log.e(TAG, "getAllHerbs: ${it.message}")
+                    }
+                    StatusMessage.EMPTY -> {
+                        showProgressBarHerbs(false)
+                        Toast.makeText(requireActivity(), "Data Kosong", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        })
+    }
+
+    private fun getRecipes() {
+        homeViewModel.getRecipes().observe(viewLifecycleOwner, {
+            if(it != null){
+                when(it.status){
+                    StatusMessage.LOADING -> {
+                        showProgressBarRecipe(true)
+                    }
+                    StatusMessage.SUCCESS -> {
+                        binding.rvTopRecipe.apply {
+                            recipesAdapter = RecipesAdapter(it.data!!)
+                            this.adapter = recipesAdapter
+                            this.layoutManager = LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
+                            addItemDecoration(HorizontalMarginItemDecoration(24))
+                            recipesAdapter.notifyDataSetChanged()
+                            showProgressBarRecipe(false)
+                        }
+                    }
+                    StatusMessage.ERROR -> {
+                        showProgressBarRecipe(false)
+                        Log.e(TAG, "getRecipes: ${it.message}")
+                    }
+                    StatusMessage.EMPTY -> {
+                        showProgressBarRecipe(false)
+                        Toast.makeText(requireActivity(), "Data Kosong", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        })
     }
 
     private fun setupToolbar() {
@@ -68,36 +123,6 @@ class HomeFragment : Fragment() {
                 true
             }
         }
-    }
-
-    private fun getRecipes(db: FirebaseFirestore) {
-
-        homeViewModel.getRecipes(db)
-        homeViewModel.recipe.observe({lifecycle}, {
-            binding.rvTopRecipe.apply {
-                recipesAdapter = RecipesAdapter(it)
-                this.adapter = recipesAdapter
-                this.layoutManager = LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
-                addItemDecoration(HorizontalMarginItemDecoration(24))
-                recipesAdapter.notifyDataSetChanged()
-                showProgressBarRecipe(false)
-            }
-        })
-    }
-
-    private fun getAllHerbs(db: FirebaseFirestore) {
-
-        homeViewModel.getAllHerbs(db)
-        homeViewModel.herbs.observe({lifecycle}, {
-            binding.rvHerbs.apply {
-                herbsAdapter = HerbsAdapter(it)
-                this.adapter = herbsAdapter
-                this.layoutManager = LinearLayoutManager(requireActivity())
-                addItemDecoration(VerticalMarginItemDecoration(16))
-                herbsAdapter.notifyDataSetChanged()
-                showProgressBarHerbs(false)
-            }
-        })
     }
 
     private fun showProgressBarRecipe(state: Boolean){

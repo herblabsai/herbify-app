@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase
 import com.herblabs.herbifyapp.data.source.local.entity.CaptureEntity
 import com.herblabs.herbifyapp.data.source.local.entity.PredictedEntity
 
-@Database(entities = [CaptureEntity::class, PredictedEntity::class], version = 1, exportSchema = false)
+@Database(entities = [CaptureEntity::class, PredictedEntity::class], version = 2, exportSchema = false)
 abstract class HerbifyDB : RoomDatabase() {
     abstract fun herbifyDao(): HerbifyDao
 }

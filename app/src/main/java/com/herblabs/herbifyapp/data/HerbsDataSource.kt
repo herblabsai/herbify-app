@@ -52,9 +52,6 @@ interface HerbsDataSource {
 
     fun getRecipeByListID(listID: List<Int>):  MutableLiveData<Resource<List<Recipe>>>
 
-<<<<<<< Updated upstream
-
-=======
     fun searchHerbs(keyword: String):  MutableLiveData<Resource<List<HerbsFirestore>>>
->>>>>>> Stashed changes
+
 }
