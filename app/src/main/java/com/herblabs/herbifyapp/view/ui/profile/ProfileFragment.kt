@@ -4,11 +4,10 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.paging.PagedList
@@ -22,6 +21,7 @@ import com.herblabs.herbifyapp.databinding.FragmentProfileBinding
 import com.herblabs.herbifyapp.view.adapter.CaptureAdapter
 import com.herblabs.herbifyapp.view.ui.signin.SignInActivity
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class ProfileFragment : Fragment() {
@@ -53,6 +53,7 @@ class ProfileFragment : Fragment() {
             val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
+                .requestProfile()
                 .build()
             googleSignInClient = GoogleSignIn.getClient(requireContext(), gso)
 
@@ -62,11 +63,7 @@ class ProfileFragment : Fragment() {
                 binding.tvName.text = sharedPreferences.getString(SignInActivity.EXTRA_USERNAME, "")
                 setOnMenuItemClickListener {
                     when(it?.itemId){
-                        R.id.item_settings -> {
-                            // TODO : sementara di buat untuk logout
-                            // val intent = Intent(context, SearchActivity::class.java)
-                            // startActivity(intent)
-                            Toast.makeText(requireActivity(), "Coming Soon !", Toast.LENGTH_SHORT).show()
+                        R.id.item_logout -> {
                             googleSignInClient.signOut().addOnCompleteListener {
                                 startActivity(Intent(requireContext(), SignInActivity::class.java))
                             }
@@ -76,7 +73,6 @@ class ProfileFragment : Fragment() {
                 }
             }
         }
-
     }
 
     private val captureObserver = Observer<PagedList<CaptureEntity>> { captureList ->

@@ -82,6 +82,7 @@
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:spanCount="3"
                 tools:itemCount="20"
+                tools:visibility="invisible"
                 tools:listitem="@layout/item_capture" />
 
         </RelativeLayout>
@@ -103,7 +104,6 @@
             android:layout_width="match_parent"
             android:textAlignment="center"
             android:textColor="@color/gray400"
-            android:visibility="gone"
             android:textSize="16sp"/>
 
     </RelativeLayout>

@@ -40,4 +40,5 @@
     <string name="settings">pengaturan</string>
     <string name="tidak_ada_riwayat">Tidak ada riwayat</string>
     <string name="delete">Hapus</string>
+    <string name="logout">Keluar</string>
 </resources>
