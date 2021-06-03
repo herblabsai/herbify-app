@@ -66,7 +66,6 @@ class HomeFragment : Fragment() {
                             herbsAdapter = HerbsAdapter(it.data!!)
                             this.adapter = herbsAdapter
                             this.layoutManager = LinearLayoutManager(requireActivity())
-                            addItemDecoration(VerticalMarginItemDecoration(16))
                             herbsAdapter.notifyDataSetChanged()
                             state = false
                             showShimmeringLoading(state,state2)

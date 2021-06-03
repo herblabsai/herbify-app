@@ -46,7 +46,6 @@ class SearchActivity : AppCompatActivity() {
                                     searchListAdapter = HerbsAdapter(it.data!!)
                                     this.adapter = searchListAdapter
                                     this.layoutManager = LinearLayoutManager(context)
-                                    addItemDecoration(VerticalMarginItemDecoration(16))
                                     searchListAdapter.notifyDataSetChanged()
                                 }
                             }
