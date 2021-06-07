@@ -91,7 +91,7 @@ class IdentifyActivity : AppCompatActivity() {
         }
 
         binding.toolbar.setNavigationOnClickListener {
-            onBackPressed()
+           this.finish()
         }
 
     }
@@ -112,5 +112,10 @@ class IdentifyActivity : AppCompatActivity() {
                 Toast.makeText(this, "Your feedback has send", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
     }
 }
