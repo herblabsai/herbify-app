@@ -1,6 +1,7 @@
 package com.herblabs.herbifyapp.view.ui.identify
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
@@ -19,6 +20,7 @@ import com.herblabs.herbifyapp.data.source.remote.response.Data
 import com.herblabs.herbifyapp.data.source.remote.response.HerbsResponse
 import com.herblabs.herbifyapp.databinding.ActivityIdentifyBinding
 import com.herblabs.herbifyapp.view.adapter.IdentifyAdapter
+import com.herblabs.herbifyapp.view.ui.main.MainActivity
 import com.herblabs.herbifyapp.view.ui.signin.SignInActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
@@ -91,7 +93,7 @@ class IdentifyActivity : AppCompatActivity() {
         }
 
         binding.toolbar.setNavigationOnClickListener {
-           this.finish()
+            onBackPressed()
         }
 
     }
@@ -115,7 +117,9 @@ class IdentifyActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
+        Intent(this, MainActivity::class.java).apply {
+            startActivity(this)
+        }
         finish()
     }
 }
