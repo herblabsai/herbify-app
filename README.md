@@ -1,8 +1,11 @@
-![Logo](https://raw.githubusercontent.com/herblabsai/herbify-app/media/media/logo-herbify.png)
+<p align="center">
+  ![Logo](https://raw.githubusercontent.com/herblabsai/herbify-app/media/media/logo-herbify.png)
+</p>
 
-
-# Herb Identify
-Hello this is the Android mobile application repository of Capstone Project Bangkit 2021.
+<p align="center">
+  # Herb Identify
+</p>
+  Hello this is the Android mobile application repository of Capstone Project Bangkit 2021.
 
 
 ## Our Teams 
