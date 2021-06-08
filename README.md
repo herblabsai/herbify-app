@@ -1,11 +1,10 @@
 <p align="center">
-  ![Logo](https://raw.githubusercontent.com/herblabsai/herbify-app/media/media/logo-herbify.png)
+  <img width=400" src="https://raw.githubusercontent.com/herblabsai/herbify-app/media/media/logo-herbify.png" alt="Herbify logo" align="center">
 </p>
 
-<p align="center">
-  # Herb Identify
-</p>
-  Hello this is the Android mobile application repository of Capstone Project Bangkit 2021.
+<h1 align="" style="margin-top: 0px;"> Herbify (Herbs Identify) </h1>
+                                           
+<p align=""> Hello, this is the Capstone Project Bangkit 2021 Android Mobile App repository from team <b>Herblabs.ai (B21-CAP0082)</b> </p>
 
 
 ## Our Teams 
@@ -21,16 +20,35 @@
 | [Dyas Irvan Masruri](https://github.com/dyasirvan)            |  A1581748  |      Android     |
 | [Fauzan Aji Prayoga](https://github.com/fauzanajipray)        |  A0070742  |      Android     |
 
-  
-## Demo
 
-<img src="https://raw.githubusercontent.com/herblabsai/herbify-app/media/media//01_ss.gif" alt="Logo" width="250" height="550">&nbsp; &nbsp;
-<img src="https://raw.githubusercontent.com/herblabsai/herbify-app/media/media//02_ss.gif" alt="Logo" width="250" height="550">&nbsp; &nbsp;
+## What is Herbify?
+           
+<p>
+   We built an application that is used to identify herbal plants by machine learning and provide information about the health benefits and recipes of herbal plants in a mobile application namely "Herbify". With Herbify, we hope that people can increase their knowledge about how to use medicinal plants which are one of Indonesia's natural wealth.
+</p>
 
+<p align="center" style="margin-bottom: 0px !important;">
+                                                        
+  <img width="250" height src="https://raw.githubusercontent.com/herblabsai/herbify-app/media/media//01_ss.gif" alt="adf" align="center">
+  &nbsp; &nbsp;                                                                                                                                      
+  <img width="250" height src="https://raw.githubusercontent.com/herblabsai/herbify-app/media/media//02_ss.gif" alt="adf" align="center">
+  &nbsp; &nbsp;
+                                                                                                                                        
+</p>
+
+                                                                                                                                        
 
 ## Tech Stack
 
-![Tech-Stack](https://raw.githubusercontent.com/herblabsai/herbify-app/media/media//Tech%20Stack.png)
+<p align="center" style="margin-bottom: 0px !important;">
+                                                        
+  <img width="900" height src="https://raw.githubusercontent.com/herblabsai/herbify-app/media/media//tech-stack.png" alt="Tech-Stack" align="center">
+                                                                                                                                        
+</p>
+                                                                                                                                                    
+## How to try our Apps
+                                                                                                                                            
+                                                                                                                                                    
 
 
   
