@@ -4,7 +4,7 @@
 
 <h1 align="" style="margin-top: 0px;"> Herbify (Herbs Identify) </h1>
                                            
-<p align=""> Hello, this is the Capstone Project Bangkit 2021 Android Mobile App repository from team <b>Herblabs.ai (B21-CAP0082)</b> </p>
+<p align=""> Hello, this is the Capstone Project Bangkit 2021 android mobile app repository from team <b>Herblabs.ai (B21-CAP0082)</b> </p>
 
 
 ## Our Teams 
@@ -47,7 +47,10 @@
 </p>
                                                                                                                                                     
 ## How to try our Apps
-                                                                                                                                            
+                                                                                                                                                    
+1. Visit our website **[here](https://herblabsai.github.io/herbify)**
+2. Scan the barcode and download the package installation
+3. Install the app and ready to go                                                                                                                                 
                                                                                                                                                     
 
 
