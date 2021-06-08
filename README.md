@@ -36,9 +36,28 @@
                                                                                                                                         
 </p>
 
+
+## Features
+                                                                                                                                        
+- Get Herbs Information
+- Get Herbs Recipes
+- Scan Herb With Camera
+- Save History Scan
+
+                                                                                                                                        
+## Tech Stack
+
+- Kotlin.                                                                                                                                        - KotlinKotlin.
+- Kotlin Coroutines.
+- MVVM Architecture.
+- Material Design.
+- Jetpack Navigation Component.
+- Retrofit (Networking).
+- Hilt (Dependency Injection).
+- Room (Local).                                                                                                                                      
                                                                                                                                         
 
-## Tech Stack
+## Supported by
 
 <p align="center" style="margin-bottom: 0px !important;">
                                                         
@@ -52,6 +71,3 @@
 2. Scan the barcode and download the package installation
 3. Install the app and ready to go                                                                                                                                 
                                                                                                                                                     
-
-
-  
