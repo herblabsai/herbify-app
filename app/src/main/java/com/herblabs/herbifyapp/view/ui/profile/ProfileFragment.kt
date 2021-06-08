@@ -14,14 +14,12 @@ import androidx.paging.PagedList
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.firebase.auth.FirebaseAuth
 import com.herblabs.herbifyapp.R
 import com.herblabs.herbifyapp.data.source.local.entity.CaptureEntity
 import com.herblabs.herbifyapp.databinding.FragmentProfileBinding
 import com.herblabs.herbifyapp.view.adapter.CaptureAdapter
 import com.herblabs.herbifyapp.view.ui.signin.SignInActivity
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class ProfileFragment : Fragment() {
@@ -66,6 +64,7 @@ class ProfileFragment : Fragment() {
                         R.id.item_logout -> {
                             googleSignInClient.signOut().addOnCompleteListener {
                                 startActivity(Intent(requireContext(), SignInActivity::class.java))
+                                requireActivity().finish()
                             }
                         }
                     }

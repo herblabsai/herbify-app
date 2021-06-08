@@ -112,6 +112,7 @@ class MainActivity : AppCompatActivity() {
                 putExtra(IdentifyActivity.EXTRA_CAPTURE, captureEntity)
                 startActivity(this)
             }
+            finish()
         }
     }
 }
